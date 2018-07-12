@@ -78,9 +78,9 @@
       <td>{{ card.disabled_16|chdis|safe }}</td>
       <td>{{ card.disabled_17|chdis|safe }}</td>
     </tr>
-    <tr class="table-info">
-      <th scope="row">Revision:</th>
-      <td colspan="8">{{ card.revision }}</td>
+    <tr class="table-primary">
+      <th scope="row" colspan="8">{{ card.revision }}</th>
+      <td colspan="1"><a href="{% url 'admin:pasttrec_trb3setup_cardsettings_change' card.pk %}"><i class="fas fa-edit"></i></td>
     </tr>
     {% if card.map_to %}
     <tr class="table-warning">
