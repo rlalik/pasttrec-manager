@@ -1,0 +1,105 @@
+{% load filters %}
+<details>
+  <summary>
+  {{ card.card.name }}
+  </summary>
+  <div style="font-size: 70%;">
+
+  <table class="table table-sm">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col" style="width: auto">Channel</th>
+      <th scope="col" style="width: 9%">0</th>
+      <th scope="col" style="width: 9%">1</th>
+      <th scope="col" style="width: 9%">2</th>
+      <th scope="col" style="width: 9%">3</th>
+      <th scope="col" style="width: 9%">4</th>
+      <th scope="col" style="width: 9%">5</th>
+      <th scope="col" style="width: 9%">6</th>
+      <th scope="col" style="width: 9%">7</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-info">
+      <th scope="row">ASIC #1</th>
+      <td colspan="2">Threshold:</td>
+      <td colspan="2">{{ card.threshold_0|chbl|safe }}</td>
+      <td colspan="2">Disabled:</td>
+      <td colspan="2">{{ card.disabled_0|chdis|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Baselines:</th>
+      <td>{{ card.baseline_00|chbl|safe }}</td>
+      <td>{{ card.baseline_01|chbl|safe }}</td>
+      <td>{{ card.baseline_02|chbl|safe }}</td>
+      <td>{{ card.baseline_03|chbl|safe }}</td>
+      <td>{{ card.baseline_04|chbl|safe }}</td>
+      <td>{{ card.baseline_05|chbl|safe }}</td>
+      <td>{{ card.baseline_06|chbl|safe }}</td>
+      <td>{{ card.baseline_07|chbl|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Disabled:</th>
+      <td>{{ card.disabled_00|chdis|safe }}</td>
+      <td>{{ card.disabled_01|chdis|safe }}</td>
+      <td>{{ card.disabled_02|chdis|safe }}</td>
+      <td>{{ card.disabled_03|chdis|safe }}</td>
+      <td>{{ card.disabled_04|chdis|safe }}</td>
+      <td>{{ card.disabled_05|chdis|safe }}</td>
+      <td>{{ card.disabled_06|chdis|safe }}</td>
+      <td>{{ card.disabled_07|chdis|safe }}</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">ASIC #2</th>
+      <td colspan="2">Threshold:</td>
+      <td colspan="2">{{ card.threshold_1|chbl|safe }}</td>
+      <td colspan="2">Disabled:</td>
+      <td colspan="2">{{ card.disabled_1|chdis|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Baselines:</th>
+      <td>{{ card.baseline_10|chbl|safe }}</td>
+      <td>{{ card.baseline_11|chbl|safe }}</td>
+      <td>{{ card.baseline_12|chbl|safe }}</td>
+      <td>{{ card.baseline_13|chbl|safe }}</td>
+      <td>{{ card.baseline_14|chbl|safe }}</td>
+      <td>{{ card.baseline_15|chbl|safe }}</td>
+      <td>{{ card.baseline_16|chbl|safe }}</td>
+      <td>{{ card.baseline_17|chbl|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Disabled:</th>
+      <td>{{ card.disabled_10|chdis|safe }}</td>
+      <td>{{ card.disabled_11|chdis|safe }}</td>
+      <td>{{ card.disabled_12|chdis|safe }}</td>
+      <td>{{ card.disabled_13|chdis|safe }}</td>
+      <td>{{ card.disabled_14|chdis|safe }}</td>
+      <td>{{ card.disabled_15|chdis|safe }}</td>
+      <td>{{ card.disabled_16|chdis|safe }}</td>
+      <td>{{ card.disabled_17|chdis|safe }}</td>
+    </tr>
+    <tr class="table-info">
+      <th scope="row">Revision:</th>
+      <td colspan="8">{{ card.revision }}</td>
+    </tr>
+    {% if card.map_to %}
+    <tr class="table-warning">
+      <th scope="row">Mapped from:</th>
+      <td colspan="8">{{ card.map_to }}</td>
+    </tr>
+    {% endif %}
+  </tbody>
+  </table>
+  </div>
+</details>
+
+<!--<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#card_{{ card.card.name }}" aria-expanded="false" aria-controls="card_{{ card.card.name }}">
+    Button with data-target
+  </button>
+</p>
+<div class="collapse" id="card_{{ card.card.name }}">
+  <div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>-->

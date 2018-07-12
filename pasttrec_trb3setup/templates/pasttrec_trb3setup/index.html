@@ -1,0 +1,31 @@
+{% extends 'pasttrec_trb3setup/base.html' %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Home</li>
+  </ol>
+</nav>
+
+<h3>Select setup</h3>
+
+{% if object_list %}
+    <nav class="nav flex-column">
+    {% for setup in object_list %}
+        <a class="nav-link" href="{% url 'pasttrec_trb3setup:setup' setup.id %}">{{ setup.name }}</a>
+    {% endfor %}
+    </nav>
+{% else %}
+    <p>No setups are available.</p>
+{% endif %}
+
+</div>
+</div>
+
+</div>
+{% endblock %}
