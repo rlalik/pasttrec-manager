@@ -1,5 +1,13 @@
 {% extends 'pasttrec_trb3setup/base.html' %}
 
+{% block head_extras %}
+<script>
+function json_download() {
+    window.location.href = "{% url 'pasttrec_trb3setup:export_json' revision.pk %}"
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container">
 
@@ -37,15 +45,15 @@
     <a class="nav-link" href="{% url 'admin:pasttrec_trb3setup_revision_change' revision.pk %}">
       <i class="fas fa-edit"></i> Edit revision
     </a>
-    <a class="nav-link" href=""><i class="fas fa-file-export"></i> Export 1 (t.b.d.)</a>
-    <a class="nav-link" href="">Export 2 (t.b.d.)</a>
+    <a class="nav-link" href="#" onclick="json_download()"><i class="fas fa-file-export"></i> Export JSON</a>
+<!--     <a class="nav-link" href="">Export trbcmd configuration</a> -->
   </nav>
 
 <br />
 
 <h4>Configuration</h4>
 
-{% if status %}
+{% if snapshot %}
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -58,7 +66,7 @@
   </thead>
   <tbody>
 
-  {% for s in status %}
+  {% for s in snapshot %}
   <tr>
     <th scope="row">{{ s.name }} </th>
     <!--<td><a href="">{% if s.card1.map_to %}{{ s.card1.map_to }}{% else %}{{ s.card1.card.name }} {{ s.card1.revision }}{% endif %}</a></td>-->

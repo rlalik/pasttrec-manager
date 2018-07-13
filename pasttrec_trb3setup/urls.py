@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('setup/<int:setup_id>', views.SetupView.as_view(), name='setup'),
     path('rev/<int:pk>', views.RevisionView.as_view(), name='rev'),
+    path('export/json/<int:pk>', views.export_json_view, name='export_json'),
 ]
 
