@@ -113,6 +113,7 @@ class CardSettingsAdmin(admin.ModelAdmin):
     fieldsets = [
         ( None,         { 'fields' : ['card', 'revision', 'map_to'] }),
         ( 'Asic #1',    { 'fields' : [
+            ('bg_int_0', 'gain_0', 'peaking_0', 'tc1c_0', 'tc1r_0', 'tc2c_0', 'tc2r_0' ),
             ('threshold_0', 'disabled_0'),
             ('baseline_00', 'disabled_00' ),
             ('baseline_01', 'disabled_01' ),
@@ -124,6 +125,7 @@ class CardSettingsAdmin(admin.ModelAdmin):
             ('baseline_07', 'disabled_07' ),
         ], 'classes': ['collapse'] } ),
         ( 'Asic #2',    { 'fields' : [
+            ('bg_int_1', 'gain_1', 'peaking_1', 'tc1c_1', 'tc1r_1', 'tc2c_1', 'tc2r_1' ),
             ('threshold_1', 'disabled_1'),
             ('baseline_10', 'disabled_10' ),
             ('baseline_11', 'disabled_11' ),
@@ -151,12 +153,14 @@ class CardSettingsInline(admin.StackedInline):
     model = CardSettings
     extra = 0
     fields = [ ('revision', 'map_to'),
+               ('bg_int_0', 'gain_0', 'peaking_0', 'tc1c_0', 'tc1r_0', 'tc2c_0', 'tc2r_0' ),
                ('threshold_0',
                 'baseline_00', 'baseline_01', 'baseline_02', 'baseline_03',
                 'baseline_04', 'baseline_05', 'baseline_06', 'baseline_07'),
                ('disabled_0',
                 'disabled_00', 'disabled_01', 'disabled_02', 'disabled_03',
                 'disabled_04', 'disabled_05', 'disabled_06', 'disabled_07'),
+               ('bg_int_1', 'gain_1', 'peaking_1', 'tc1c_1', 'tc1r_1', 'tc2c_1', 'tc2r_1' ),
                ('threshold_1',
                 'baseline_10', 'baseline_11', 'baseline_12', 'baseline_13',
                 'baseline_14', 'baseline_15', 'baseline_16', 'baseline_17'),

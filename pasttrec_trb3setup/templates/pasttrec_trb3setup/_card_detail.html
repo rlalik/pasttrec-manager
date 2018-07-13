@@ -22,10 +22,30 @@
   <tbody>
     <tr class="table-info">
       <th scope="row">ASIC #1</th>
-      <td colspan="2">Threshold:</td>
+      <td colspan="3" class="cell_detail" >Threshold:</td>
       <td colspan="2">{{ card.threshold_0|chbl|safe }}</td>
-      <td colspan="2">Disabled:</td>
-      <td colspan="2">{{ card.disabled_0|chdis|safe }}</td>
+      <td colspan="2" class="cell_detail" >Disabled:</td>
+      <td>{{ card.disabled_0|chdis|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Config</th>
+      <td class="cell_detail" colspan="3">BG_int:</td>
+      <td>{{ card.bg_int_0|chbl|safe }}</td>
+      <td class="cell_detail">K:</td>
+      <td>{{ card.gain_0|chbl|safe }}</td>
+      <td class="cell_detail">Tp:</td>
+      <td>{{ card.peaking_0|chbl|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Config: TC-</th>
+      <td class="cell_detail">1C</td>
+      <td>{{ card.tc1c_0|chbl|safe }}</td>
+      <td class="cell_detail">1R</td>
+      <td>{{ card.tc1r_0|chbl|safe }}</td>
+      <td class="cell_detail">2C</td>
+      <td>{{ card.tc2c_0|chbl|safe }}</td>
+      <td class="cell_detail">2R</td>
+      <td>{{ card.tc2r_0|chbl|safe }}</td>
     </tr>
     <tr>
       <th scope="row">Baselines:</th>
@@ -51,10 +71,30 @@
     </tr>
     <tr class="table-info">
       <th scope="row">ASIC #2</th>
-      <td colspan="2">Threshold:</td>
+      <td colspan="3" class="cell_detail" >Threshold:</td>
       <td colspan="2">{{ card.threshold_1|chbl|safe }}</td>
-      <td colspan="2">Disabled:</td>
-      <td colspan="2">{{ card.disabled_1|chdis|safe }}</td>
+      <td colspan="2" class="cell_detail" >Disabled:</td>
+      <td>{{ card.disabled_1|chdis|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Config</th>
+      <td class="cell_detail" colspan="3">BG_int:</td>
+      <td>{{ card.bg_int_1|chbl|safe }}</td>
+      <td class="cell_detail">K:</td>
+      <td>{{ card.gain_1|chbl|safe }}</td>
+      <td class="cell_detail">Tp:</td>
+      <td>{{ card.peaking_1|chbl|safe }}</td>
+    </tr>
+    <tr>
+      <th scope="row">Config: TC-</th>
+      <td class="cell_detail">1C</td>
+      <td>{{ card.tc1c_1|chbl|safe }}</td>
+      <td class="cell_detail">1R</td>
+      <td>{{ card.tc1r_1|chbl|safe }}</td>
+      <td class="cell_detail">2C</td>
+      <td>{{ card.tc2c_1|chbl|safe }}</td>
+      <td class="cell_detail">2R</td>
+      <td>{{ card.tc2r_1|chbl|safe }}</td>
     </tr>
     <tr>
       <th scope="row">Baselines:</th>
