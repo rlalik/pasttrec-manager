@@ -26,16 +26,16 @@ function json_download() {
 <h3>Browse revisions</h3>
 
 {% if revlist %}
-  <nav class="nav nav-pills nav-justified">
+  <nav><ul class="pagination">
   {% for cr in revlist %}
     {%if cr.active %}
-    <a class="nav-item nav-link active" href="{% url 'pasttrec_trb3setup:rev' cr.pk %}">
+    <li class="page-item"><a class="page-link active" href="{% url 'pasttrec_trb3setup:rev' cr.pk %}">
     {% else %}
-    <a class="nav-item nav-link" href="{% url 'pasttrec_trb3setup:rev' cr.pk %}">
+    <li class="page-item"><a class="page-link" href="{% url 'pasttrec_trb3setup:rev' cr.pk %}">
     {% endif %}
-    {{ cr.name }}</a>
+    {{ cr.name }}</a></li>
   {% endfor %}
-  </nav>
+  </li></nav>
 {% endif %}
 
 <br />
@@ -47,6 +47,9 @@ function json_download() {
     </a>
     <a class="nav-link" href="#" onclick="json_download()"><i class="fas fa-file-export"></i> Export JSON</a>
 <!--     <a class="nav-link" href="">Export trbcmd configuration</a> -->
+    <a class="nav-link" href="{% url 'pasttrec_trb3setup:import_select_revision' object.setup.id %}">
+      <i class="fas fa-file-import"></i> Import settings
+    </a>
   </nav>
 
 <br />
