@@ -142,7 +142,6 @@ class CardSettingsAdmin(admin.ModelAdmin):
         if db_field.name == "map_to":
             pk = resolve(request.path).kwargs.get('object_id', None)
             if pk is not None:
-                print(resolve(request.path), pk)
                 q = CardSettings.objects.get(pk=pk)
                 kwargs["queryset"] = CardSettings.objects.filter(card=q.card)
             else:
@@ -171,7 +170,6 @@ class CardSettingsInline(admin.StackedInline):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "map_to":
-            print(repr(kwargs))
             #pk = resolve(request.path).kwargs['object_id']
             #if pk is not None:
                 #print(resolve(request.path), pk)

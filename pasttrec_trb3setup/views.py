@@ -158,7 +158,6 @@ def import_insert_view(request, setup):
     _setup = Setup.objects.get(pk=setup)
     if request.method == 'POST':
         form = RevisionForm(request.POST)
-        print(form.fields['creation_on'].widget)
         if form.is_valid():
             new_rev = form.save()
 
@@ -167,11 +166,11 @@ def import_insert_view(request, setup):
     return redirect('pasttrec_trb3setup:import_select_revision', setup=setup)
 
 def build_list_of_names(d):
-    l = {}
+    l = []
     for k, v in d.items():
         for c in range(3):
             n = "name_{:s}_{:d}".format(k, c)
-            l[n] = { 'sel': None, 'val' : v[c] }
+            l.append({ 'name' : n, 'sel': None, 'val' : v[c] })
 
     return l
 
@@ -179,7 +178,6 @@ def import_file_view(request, rev):
     _rev = Revision.objects.get(pk=rev)
 
     if request.method == 'POST':
-        print(request.POST, request.FILES)
         form = JsonUploadFileForm(request.POST, request.FILES)
 
         if form.is_valid():
@@ -228,15 +226,14 @@ def import_json_view(request, rev):
             d = json.loads(raw)
             l = build_list_of_names(d)
 
-            for k,v in l.items():
-                l[k]['sel'] = request.POST[k]
-                if l[k]['sel'] is not "":
+            for v in l:
+                v['sel'] = request.POST[v['name']]
+                if v['sel'] is not "":
                     obj, created = CardSettings.objects.update_or_create(
-                        card=Card.objects.get(pk=l[k]['sel']),
+                        card=Card.objects.get(pk=v['sel']),
                         revision=_rev
                     )
-                    print(obj, created, obj.pk, obj.card)
-                    data = l[k]['val']
+                    data = v['val']
                     # asic #1
                     obj.bg_int_0 = data[0]['bg_int']
                     obj.gain_0 = data[0]['gain']
@@ -298,7 +295,6 @@ def import_json_view(request, rev):
                     obj.disabled_17 = False
 
                     obj.save()
-                    print(l[k]['sel'], _rev.pk, obj.revision.pk)
                     updated.append(obj.card)
 
             return render(

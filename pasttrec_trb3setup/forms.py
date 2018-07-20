@@ -24,16 +24,15 @@ class CardConfigInsertForm(forms.Form):
         self.initial['raw_data'] = raw
 
         if extra is not None:
-            for k, v in extra.items():
-                parts = k.split('_')
-                print(k, parts, v)
-                self.fields[k] = \
+            for v in extra:
+                parts = v['name'].split('_')
+                self.fields[v['name']] = \
                     forms.ModelChoiceField(
                         queryset=(Card.objects.all()),
                         label="Id: {:s}  Cable: {:s}".format(parts[1], parts[2]),
                         required=False
                     )
-                self.initial[k] = v
+                #self.initial[v['name']] = v
 
     def clean(self):
         pass
