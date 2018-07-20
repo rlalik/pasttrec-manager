@@ -169,7 +169,7 @@ class CardSettingsInline(admin.StackedInline):
             ]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "map_to":
+        #if db_field.name == "map_to":
             #pk = resolve(request.path).kwargs['object_id']
             #if pk is not None:
                 #print(resolve(request.path), pk)
