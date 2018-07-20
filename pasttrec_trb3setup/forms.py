@@ -30,7 +30,7 @@ class CardConfigInsertForm(forms.Form):
                 self.fields[k] = \
                     forms.ModelChoiceField(
                         queryset=(Card.objects.all()),
-                        label="Id: {:s}  Card: {:s}".format(parts[1], parts[2]),
+                        label="Id: {:s}  Cable: {:s}".format(parts[1], parts[2]),
                         required=False
                     )
                 self.initial[k] = v
