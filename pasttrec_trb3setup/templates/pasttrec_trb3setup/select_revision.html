@@ -37,6 +37,7 @@
     <p>No revision are available.</p>
 {% endif %}
 
+<br />
 <h3>Or create new revision</h3>
 
 <form action="{% url 'pasttrec_trb3setup:import_insert_revision' setup.pk %}" method="post">
@@ -49,7 +50,7 @@
     <td>{{ form.creation_on|adddtclass:'vDateField ce-dtdate;vTimeField ce-dttime' }}{{ form.creation_on.errors }}</td></tr>
   </table>
   <div>
-    <input class="btn" type="submit" value="{% trans 'Save' %}" />
+    <input class="btn" type="submit" value="{% trans 'Create' %}" />
     <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
   </div>
 </form>

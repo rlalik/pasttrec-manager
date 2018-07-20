@@ -162,7 +162,7 @@ def import_insert_view(request, setup):
         if form.is_valid():
             new_rev = form.save()
 
-            return redirect('pasttrec_trb3setup:import_file', pk=new_rev.pk)
+            return redirect('pasttrec_trb3setup:import_file', rev=new_rev.pk)
 
     return redirect('pasttrec_trb3setup:import_select_revision', setup=setup)
 
@@ -181,12 +181,12 @@ def import_file_view(request, rev):
     if request.method == 'POST':
         print(request.POST, request.FILES)
         form = JsonUploadFileForm(request.POST, request.FILES)
-        print(form.is_valid())
+
         if form.is_valid():
             d_str = b''
             for chunk in request.FILES['file'].chunks():
                 d_str += chunk
-            print(d_str.decode())
+
             d = json.loads(d_str.decode())
             l = build_list_of_names(d)
             cards_form = CardConfigInsertForm(raw=d_str.decode(), extra=l)
