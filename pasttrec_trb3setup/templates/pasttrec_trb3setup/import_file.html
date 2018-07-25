@@ -28,6 +28,11 @@
 {% if form_upload %}
 <h3>Select file to upload</h3>
 
+{% if version_error %}
+<p class="text-danger">Input file has version {{ version_error }} whereas
+system runs with version {{ version_current }}.</p>
+{% endif %}
+
 <form action="{% url 'pasttrec_trb3setup:import_file' rev.pk %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form_upload.non_field_errors }}
@@ -42,7 +47,7 @@
 </form>
 {% endif %}
 
-{% if cards %}
+{% if cards_form %}
 <br />
 <h3>Asign cards to revision {{ rev.creation_on }}</h3>
 

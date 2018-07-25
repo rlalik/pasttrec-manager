@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
-import json
+import json, pasttrec
 
 from .models import Card, CardSettings, Connection, Revision, Setup, TDC
 from .forms import CardConfigInsertForm, JsonUploadFileForm, RevisionForm
@@ -134,7 +134,7 @@ def export_json_view(request, pk):
     snapshot = create_revision_snapshot(revision)
     s = export_json(snapshot)
 
-    response = HttpResponse(json.dumps(s, indent=2), content_type='application/json')
+    response = HttpResponse(json.dumps(pasttrec.dump(s), indent=2), content_type='application/json')
     response['Content-Disposition'] = 'attachment; filename=export.json'
     return response
     #return JsonResponse(s)
@@ -168,9 +168,11 @@ def import_insert_view(request, setup):
 def build_list_of_names(d):
     l = []
     for k, v in d.items():
-        for c in range(3):
+        if k == 'version': continue
+
+        for c in range(1,4):
             n = "name_{:s}_{:d}".format(k, c)
-            l.append({ 'name' : n, 'sel': None, 'val' : v[c] })
+            l.append({ 'name' : n, 'sel': None, 'val' : v['cable{:d}'.format(c)] })
 
     return l
 
@@ -186,6 +188,20 @@ def import_file_view(request, rev):
                 d_str += chunk
 
             d = json.loads(d_str.decode())
+            res1, res2 = pasttrec.load(d)
+            if res1 == False:
+                return render(
+                    request,
+                    'pasttrec_trb3setup/import_file.html',
+                    context = {
+                        'setup' : _rev.setup,
+                        'rev' : _rev,
+                        'form_upload' : form,
+                        'version_error' : res2,
+                        'version_current' : pasttrec.LIBVERSION
+                    }
+                );
+
             l = build_list_of_names(d)
             cards_form = CardConfigInsertForm(raw=d_str.decode(), extra=l)
 
@@ -197,7 +213,6 @@ def import_file_view(request, rev):
                     'rev' : _rev,
                     'form_upload' : form,
                     'cards_form' : cards_form,
-                    'cards' : { 'aaa' : 0 },
                 }
             );
         else:
@@ -224,6 +239,7 @@ def import_json_view(request, rev):
             updated = []
             raw = request.POST['raw_data']
             d = json.loads(raw)
+
             l = build_list_of_names(d)
 
             for v in l:
@@ -235,25 +251,25 @@ def import_json_view(request, rev):
                     )
                     data = v['val']
                     # asic #1
-                    obj.bg_int_0 = data[0]['bg_int']
-                    obj.gain_0 = data[0]['gain']
-                    obj.peaking_0 = data[0]['peaking']
-                    obj.tc1c_0 = data[0]['tc1c']
-                    obj.tc1r_0 = data[0]['tc1r']
-                    obj.tc2c_0 = data[0]['tc2c']
-                    obj.tc2r_0 = data[0]['tc2r']
+                    obj.bg_int_0 = data['asic1']['bg_int']
+                    obj.gain_0 = data['asic1']['gain']
+                    obj.peaking_0 = data['asic1']['peaking']
+                    obj.tc1c_0 = data['asic1']['tc1c']
+                    obj.tc1r_0 = data['asic1']['tc1r']
+                    obj.tc2c_0 = data['asic1']['tc2c']
+                    obj.tc2r_0 = data['asic1']['tc2r']
 
-                    obj.threshold_0 = data[0]['vth']
+                    obj.threshold_0 = data['asic1']['vth']
                     obj.disabled_0 = False
 
-                    obj.baseline_00 = data[0]['bl'][0]
-                    obj.baseline_01 = data[0]['bl'][1]
-                    obj.baseline_02 = data[0]['bl'][2]
-                    obj.baseline_03 = data[0]['bl'][3]
-                    obj.baseline_04 = data[0]['bl'][4]
-                    obj.baseline_05 = data[0]['bl'][5]
-                    obj.baseline_06 = data[0]['bl'][6]
-                    obj.baseline_07 = data[0]['bl'][7]
+                    obj.baseline_00 = data['asic1']['bl'][0]
+                    obj.baseline_01 = data['asic1']['bl'][1]
+                    obj.baseline_02 = data['asic1']['bl'][2]
+                    obj.baseline_03 = data['asic1']['bl'][3]
+                    obj.baseline_04 = data['asic1']['bl'][4]
+                    obj.baseline_05 = data['asic1']['bl'][5]
+                    obj.baseline_06 = data['asic1']['bl'][6]
+                    obj.baseline_07 = data['asic1']['bl'][7]
 
                     obj.disabled_00 = False
                     obj.disabled_01 = False
@@ -265,25 +281,25 @@ def import_json_view(request, rev):
                     obj.disabled_07 = False
 
                     # asic #2
-                    obj.bg_int_1 = data[1]['bg_int']
-                    obj.gain_1 = data[1]['gain']
-                    obj.peaking_1 = data[1]['peaking']
-                    obj.tc1c_1 = data[1]['tc1c']
-                    obj.tc1r_1 = data[1]['tc1r']
-                    obj.tc2c_1 = data[1]['tc2c']
-                    obj.tc2r_1 = data[1]['tc2r']
+                    obj.bg_int_1 = data['asic2']['bg_int']
+                    obj.gain_1 = data['asic2']['gain']
+                    obj.peaking_1 = data['asic2']['peaking']
+                    obj.tc1c_1 = data['asic2']['tc1c']
+                    obj.tc1r_1 = data['asic2']['tc1r']
+                    obj.tc2c_1 = data['asic2']['tc2c']
+                    obj.tc2r_1 = data['asic2']['tc2r']
 
-                    obj.threshold_1 = data[1]['vth']
+                    obj.threshold_1 = data['asic2']['vth']
                     obj.disabled_1 = False
 
-                    obj.baseline_10 = data[1]['bl'][0]
-                    obj.baseline_11 = data[1]['bl'][1]
-                    obj.baseline_12 = data[1]['bl'][2]
-                    obj.baseline_13 = data[1]['bl'][3]
-                    obj.baseline_14 = data[1]['bl'][4]
-                    obj.baseline_15 = data[1]['bl'][5]
-                    obj.baseline_16 = data[1]['bl'][6]
-                    obj.baseline_17 = data[1]['bl'][7]
+                    obj.baseline_10 = data['asic2']['bl'][0]
+                    obj.baseline_11 = data['asic2']['bl'][1]
+                    obj.baseline_12 = data['asic2']['bl'][2]
+                    obj.baseline_13 = data['asic2']['bl'][3]
+                    obj.baseline_14 = data['asic2']['bl'][4]
+                    obj.baseline_15 = data['asic2']['bl'][5]
+                    obj.baseline_16 = data['asic2']['bl'][6]
+                    obj.baseline_17 = data['asic2']['bl'][7]
 
                     obj.disabled_10 = False
                     obj.disabled_11 = False
