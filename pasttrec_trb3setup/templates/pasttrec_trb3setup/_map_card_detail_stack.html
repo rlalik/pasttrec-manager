@@ -1,0 +1,19 @@
+{% if s == state.ADDED %}
+<a href="{% url 'pasttrec_trb3setup:card' c.id %}">
+<i class="fas fa-caret-square-right"></i>
+</a>
+{% elif s == state.CHANGED %}
+<a href="{% url 'pasttrec_trb3setup:card' c.card.id %}#{{ c.id }}">
+<i class="fas fa-exchange-alt"></i>
+</a>
+{% elif s == state.UPDATED %}
+<a href="{% url 'pasttrec_trb3setup:card' c.card.id %}#{{ c.id }}">
+<i class="fas fa-sync-alt"></i>
+</a>
+{% elif s == state.REMOVED %}
+<i class="fas fa-ban"></i>
+{% elif s == state.KEPT %}
+<i class="fas fa-equals"></i>
+{% else %}
+<i class="fas"></i>
+{% endif %}

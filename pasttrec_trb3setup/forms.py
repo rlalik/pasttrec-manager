@@ -36,3 +36,8 @@ class CardConfigInsertForm(forms.Form):
 
     def clean(self):
         pass
+
+class CardInsertForm(forms.ModelForm):
+    class Meta:
+        model = Card
+        fields = [ 'name', 'notes' ]

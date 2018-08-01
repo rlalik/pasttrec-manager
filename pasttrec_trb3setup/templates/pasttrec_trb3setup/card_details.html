@@ -9,7 +9,7 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">{{ object.creation_on }}</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ object.name }}</li>
   </ol>
 </nav>
 
@@ -17,6 +17,7 @@
 
 {% if revisions %}
   {% for r in revisions %}
+    <a name="{{r.id}}" />
     <div class="card">
     <div class="card-header"><a href="{% url 'pasttrec_trb3setup:rev' r.revision.pk %}">{{ r.revision }}</a></div>
     <div class="card-body">

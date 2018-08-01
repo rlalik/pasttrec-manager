@@ -13,16 +13,75 @@
   </ol>
 </nav>
 
+{% if map %}
+
+<h3>Setup map</h3>
+<h6>Legend</h6>
+<div class="row">
+<div class="col-2"><i class="fas fa-caret-square-right"></i> - card inserted</div>
+<div class="col-2"><i class="fas fa-exchange-alt"></i> - card replaced</div>
+<div class="col-2"><i class="fas fa-sync-alt"></i> - new card settings</div>
+<div class="col-2"><i class="fas fa-ban"></i> - card removed</div>
+<div class="col-2"><i class="fas fa-equals"></i> - card kept</div>
+</div>
+<br />
+
+<table class="table table-sm">
+<thead>
+  <tr class="table-info text-center">
+    <th scope="col" class="align-middle">TDC</th>
+    {% if object_list %}{% for rev in object_list reversed %}
+    <th scope="col"><small>
+      <a class="text-small" href="{% url 'pasttrec_trb3setup:rev' rev.id %}">{{ rev.creation_on }}</a>
+    </small></th>
+    {% endfor %}{% endif %}
+  </tr>
+</thead>
+<tbody>
+{% for tdc, val in map.items %}
+  <tr>
+    <th scope="row" class="align-middle">
+      <span class="badge badge-warning verticaltext">{{ tdc }}</span>
+    </th>
+    {% for r in val %}
+    <td class="" style="width: 100pt; height: 100px;">
+      <div class="row text-center">
+
+      <div class="col-12">
+        {% if r.status != State.NONE and r.status != State.KEPT and r.status != State.UPDATED %}
+        <a href="{% url 'pasttrec_trb3setup:rev' r.rev.id %}"><i class="fas fa-map-pin"></i></a>
+        {% else %}
+        <i class="fas"></i>
+        {% endif %}
+      </div>
+      <div class="col-12 align-center">
+        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with c=r.card1 s=r.card1_s state=State %}
+      </div>
+      <div class="col-12">
+        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with c=r.card2 s=r.card2_s state=State %}
+      </div>
+      <div class="col-12">
+        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with c=r.card3 s=r.card3_s state=State %}
+      </div>
+    </div>
+   {% endfor %}
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% endif %}
+
 <h3>Select revision</h3>
 
 {% if object_list %}
-    <nav class="nav flex-column">
-    {% for rev in object_list %}
-        <a class="nav-link" href="{% url 'pasttrec_trb3setup:rev' rev.id %}">{{ rev.creation_on }}</a>
-    {% endfor %}
-    </nav>
+  <nav class="nav flex-column">
+  {% for rev in object_list %}
+    <a class="nav-link" href="{% url 'pasttrec_trb3setup:rev' rev.id %}">{{ rev.creation_on }}</a>
+  {% endfor %}
+  </nav>
 {% else %}
-    <p>No revisions are available.</p>
+  <p>No revisions are available.</p>
 {% endif %}
 
 </div>

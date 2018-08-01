@@ -12,11 +12,14 @@
   </ol>
 </nav>
 
-<h3>Select setup</h3>
+</div></div>
 
-{% if object_list %}
+<div class="row">
+<div class="col">
+<h3>Select setup</h3>
+{% if setups %}
     <nav class="nav flex-column">
-    {% for setup in object_list %}
+    {% for setup in setups %}
         <a class="nav-link" href="{% url 'pasttrec_trb3setup:setup' setup.id %}">{{ setup.name }}</a>
     {% endfor %}
     </nav>
@@ -25,6 +28,46 @@
 {% endif %}
 
 </div>
+<div class="col">
+<h3>Select card</h3>
+{% if cards %}
+<!--     <nav class="nav flex-column"> -->
+    <h5>C</h5>
+    {% for card in cards %}
+        {% if card.name|first in 'C' %}
+        <a class="btn btn-outline-dark btn-sm" href="{% url 'pasttrec_trb3setup:card' card.id %}">{{ card.name }}</a>
+        {% endif %}
+    {% endfor %}
+    <h5>B</h5>
+    {% for card in cards %}
+        {% if card.name|first in 'B' %}
+        <a class="btn btn-outline-dark btn-sm" href="{% url 'pasttrec_trb3setup:card' card.id %}">{{ card.name }}</a>
+        {% endif %}
+    {% endfor %}
+    <h5>A</h5>
+    {% for card in cards %}
+        {% if card.name|first in 'A' %}
+        <a class="btn btn-outline-dark btn-sm" href="{% url 'pasttrec_trb3setup:card' card.id %}">{{ card.name }}</a>
+        {% endif %}
+    {% endfor %}
+<!--     </nav> -->
+{% else %}
+    <p>No cards are available.</p>
+{% endif %}
+
+<br /><br />
+
+<h3>Tools</h3>
+  <nav class="nav">
+    <a class="nav-link" href="{% url 'pasttrec_trb3setup:insert_card' %}">
+      <i class="fas fa-plus-square"></i> Insert card
+    </a>
+    <a class="nav-link" href="{% url 'pasttrec_trb3setup:insert_cards' %}">
+      <i class="fas fa-plus-square"></i> Insert multiple cards
+    </a>
+  </nav>
+</div>
+
 </div>
 
 </div>

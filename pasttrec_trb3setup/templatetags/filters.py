@@ -33,3 +33,7 @@ def chdis(value):
         return '<span class="badge badge-danger">Y</span>'
     else:
         return '<span class="badge badge-success">N</span>'
+
+@register.filter(name='lookup')
+def lookup(value, arg):
+    return value[arg]

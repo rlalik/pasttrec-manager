@@ -1,6 +1,6 @@
 {% load filters %}
   <table class="table table-sm">
-  <thead class="thead-light">
+  <thead class="thead-light text-center">
     <tr>
       <th scope="col" style="width: auto">Channel</th>
       <th scope="col" style="width: 9%">0</th>
@@ -16,33 +16,33 @@
   <tbody>
     <tr>
       <th scope="row" class="table-info">ASIC #1</th>
-      <td colspan="3" class="cell_detail" >Threshold:</td>
-      <td class="table-warning">{{ card.threshold_0|chbl|safe }}</td>
-      <td colspan="3" class="cell_detail" >Disabled:</td>
+      <td colspan="3" class="cell_detail" >Threshold</td>
+      <td class="table-warning text-center">{{ card.threshold_0|chbl|safe }}</td>
+      <td colspan="3" class="cell_detail" >Disabled</td>
       <td class="table-warning text-center">{{ card.disabled_0|chdis|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Config</th>
-      <td class="cell_detail" colspan="3">BG_int:</td>
-      <td class="table-warning">{{ card.bg_int_0|chbl|safe }}</td>
-      <td class="cell_detail">K:</td>
-      <td class="table-warning">{{ card.gain_0|chbl|safe }}</td>
-      <td class="cell_detail">Tp:</td>
-      <td class="table-warning">{{ card.peaking_0|chbl|safe }}</td>
+      <th scope="row"></th>
+      <td class="cell_detail" colspan="3">BG_int</td>
+      <td class="table-warning text-center">{{ card.bg_int_0|chbl|safe }}</td>
+      <td class="cell_detail">K</td>
+      <td class="table-warning text-center">{{ card.gain_0|chbl|safe }}</td>
+      <td class="cell_detail">Tp</td>
+      <td class="table-warning text-center">{{ card.peaking_0|chbl|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Config: TC-</th>
+      <th scope="row">TC-</th>
       <td class="cell_detail">1C</td>
-      <td class="table-warning">{{ card.tc1c_0|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc1c_0|chbl|safe }}</td>
       <td class="cell_detail">1R</td>
-      <td class="table-warning">{{ card.tc1r_0|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc1r_0|chbl|safe }}</td>
       <td class="cell_detail">2C</td>
-      <td class="table-warning">{{ card.tc2c_0|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc2c_0|chbl|safe }}</td>
       <td class="cell_detail">2R</td>
-      <td class="table-warning">{{ card.tc2r_0|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc2r_0|chbl|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Baselines:</th>
+      <th scope="row">Baselines</th>
       <td class="table-warning text-center">{{ card.baseline_00|chbl|safe }}</td>
       <td class="table-warning text-center">{{ card.baseline_01|chbl|safe }}</td>
       <td class="table-warning text-center">{{ card.baseline_02|chbl|safe }}</td>
@@ -53,7 +53,7 @@
       <td class="table-warning text-center">{{ card.baseline_07|chbl|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Disabled:</th>
+      <th scope="row">Disabled</th>
       <td class="table-warning text-center">{{ card.disabled_00|chdis|safe }}</td>
       <td class="table-warning text-center">{{ card.disabled_01|chdis|safe }}</td>
       <td class="table-warning text-center">{{ card.disabled_02|chdis|safe }}</td>
@@ -65,33 +65,33 @@
     </tr>
     <tr>
       <th scope="row" class="table-info">ASIC #2</th>
-      <td colspan="3" class="cell_detail" >Threshold:</td>
-      <td class="table-warning">{{ card.threshold_1|chbl|safe }}</td>
-      <td colspan="3" class="cell_detail" >Disabled:</td>
+      <td colspan="3" class="cell_detail" >Threshold</td>
+      <td class="table-warning text-center">{{ card.threshold_1|chbl|safe }}</td>
+      <td colspan="3" class="cell_detail" >Disabled</td>
       <td class="table-warning text-center">{{ card.disabled_1|chdis|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Config</th>
-      <td class="cell_detail" colspan="3">BG_int:</td>
-      <td class="table-warning">{{ card.bg_int_1|chbl|safe }}</td>
-      <td class="cell_detail">K:</td>
-      <td class="table-warning">{{ card.gain_1|chbl|safe }}</td>
-      <td class="cell_detail">Tp:</td>
-      <td class="table-warning">{{ card.peaking_1|chbl|safe }}</td>
+      <th scope="row"></th>
+      <td class="cell_detail" colspan="3">BG_int</td>
+      <td class="table-warning text-center">{{ card.bg_int_1|chbl|safe }}</td>
+      <td class="cell_detail">K</td>
+      <td class="table-warning text-center">{{ card.gain_1|chbl|safe }}</td>
+      <td class="cell_detail">Tp</td>
+      <td class="table-warning text-center">{{ card.peaking_1|chbl|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Config: TC-</th>
+      <th scope="row">TC-</th>
       <td class="cell_detail">1C</td>
-      <td class="table-warning">{{ card.tc1c_1|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc1c_1|chbl|safe }}</td>
       <td class="cell_detail">1R</td>
-      <td class="table-warning">{{ card.tc1r_1|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc1r_1|chbl|safe }}</td>
       <td class="cell_detail">2C</td>
-      <td class="table-warning">{{ card.tc2c_1|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc2c_1|chbl|safe }}</td>
       <td class="cell_detail">2R</td>
-      <td class="table-warning">{{ card.tc2r_1|chbl|safe }}</td>
+      <td class="table-warning text-center">{{ card.tc2r_1|chbl|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Baselines:</th>
+      <th scope="row">Baselines</th>
       <td class="table-warning text-center">{{ card.baseline_10|chbl|safe }}</td>
       <td class="table-warning text-center">{{ card.baseline_11|chbl|safe }}</td>
       <td class="table-warning text-center">{{ card.baseline_12|chbl|safe }}</td>
@@ -102,7 +102,7 @@
       <td class="table-warning text-center">{{ card.baseline_17|chbl|safe }}</td>
     </tr>
     <tr>
-      <th scope="row">Disabled:</th>
+      <th scope="row">Disabled</th>
       <td class="table-warning text-center">{{ card.disabled_10|chdis|safe }}</td>
       <td class="table-warning text-center">{{ card.disabled_11|chdis|safe }}</td>
       <td class="table-warning text-center">{{ card.disabled_12|chdis|safe }}</td>
