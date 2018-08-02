@@ -1,19 +1,29 @@
+{% load static %}
 {% if s == state.ADDED %}
-<a href="{% url 'pasttrec_trb3setup:card' c.id %}">
-<i class="fas fa-caret-square-right"></i>
-</a>
+<img class="card_bkg" src="{% static 'pasttrec_trb3setup/gfx/card_insert.png' %}"></img>
+<a class="card_icon text-warning" href="{% url 'pasttrec_trb3setup:card' c.id %}">
+<i class="fas fa-plug"></i>
+</a><span class="card_text">{{ c.card.name }}</span>
 {% elif s == state.CHANGED %}
-<a href="{% url 'pasttrec_trb3setup:card' c.card.id %}#{{ c.id }}">
-<i class="fas fa-exchange-alt"></i>
-</a>
+<img class="card_bkg" src="{% static 'pasttrec_trb3setup/gfx/card_exchange.png' %}"></img>
+<a class="card_icon text-warning" href="{% url 'pasttrec_trb3setup:card' c.card.id %}#{{ c.id }}">
+<i class="fas fa-retweet"></i>
+</a><span class="card_text">{{ c.card.name }}</span>
 {% elif s == state.UPDATED %}
-<a href="{% url 'pasttrec_trb3setup:card' c.card.id %}#{{ c.id }}">
-<i class="fas fa-sync-alt"></i>
+<img class="card_bkg" src="{% static 'pasttrec_trb3setup/gfx/card_reload.png' %}"></img>
+<a class="card_icon text-warning" href="{% url 'pasttrec_trb3setup:card' c.card.id %}#{{ c.id }}">
+<i class="fas fa-pen-square"></i>
 </a>
 {% elif s == state.REMOVED %}
-<i class="fas fa-ban"></i>
+<img class="card_bkg" src="{% static 'pasttrec_trb3setup/gfx/card_remove.png' %}"></img>
+<a class="card_icon text-warning" href="#">
+<i class="fas fa-minus-circle"></i>
+</a>
 {% elif s == state.KEPT %}
-<i class="fas fa-equals"></i>
+<img class="card_bkg" src="{% static 'pasttrec_trb3setup/gfx/card_keep.png' %}"></img>
+<a class="card_icon text-warning">
+<i class="fas"></i>
+</a>
 {% else %}
 <i class="fas"></i>
 {% endif %}

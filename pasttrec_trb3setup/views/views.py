@@ -51,8 +51,9 @@ def create_revision_snapshot(revision):
             continue
 
         if ntdc not in snapshot:
-            snapshot[ntdc] = { 'pk': r.pk, 'name': ntdc, 'tdc': tdc, 'card1': None, 'card2': None, 'card3': None }
+            snapshot[ntdc] = { 'pk': r, 'name': ntdc, 'tdc': tdc, 'card1': None, 'card2': None, 'card3': None }
 
+        snapshot[ntdc]['r'] = r
         snapshot[ntdc]['tdc'] = tdc
         snapshot[ntdc]['card1'] = c1
         snapshot[ntdc]['card2'] = c2

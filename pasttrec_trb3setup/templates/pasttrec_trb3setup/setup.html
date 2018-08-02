@@ -16,17 +16,18 @@
 {% if map %}
 
 <h3>Setup map</h3>
-<h6>Legend</h6>
+<h5>Legend</h5>
 <div class="row">
-<div class="col-2"><i class="fas fa-caret-square-right"></i> - card inserted</div>
-<div class="col-2"><i class="fas fa-exchange-alt"></i> - card replaced</div>
-<div class="col-2"><i class="fas fa-sync-alt"></i> - new card settings</div>
-<div class="col-2"><i class="fas fa-ban"></i> - card removed</div>
-<div class="col-2"><i class="fas fa-equals"></i> - card kept</div>
+<div class="col-2"><i class="fas fa-plug"></i> - card inserted</div>
+<div class="col-2"><i class="fas fa-retweet"></i> - card replaced</div>
+<div class="col-2"><i class="fas fa-pen-square"></i> - new card settings</div>
+<div class="col-2"><i class="fas fa-minus-circle"></i> - card removed</div>
+<div class="col-3"><i class="fas fa-exclamation-triangle"></i> - connection change event</div>
+
 </div>
 <br />
 
-<table class="table table-sm">
+<table id="table_map" class="table table-sm" style="width: 1px;">
 <thead>
   <tr class="table-info text-center">
     <th scope="col" class="align-middle">TDC</th>
@@ -35,26 +36,27 @@
       <a class="text-small" href="{% url 'pasttrec_trb3setup:rev' rev.id %}">{{ rev.creation_on }}</a>
     </small></th>
     {% endfor %}{% endif %}
+    <th scope="col" class="align-middle bg-light"><a class="text-small" href="" alt="Insert revision"><i class="fas fa-plus-square"></i></a></th>
   </tr>
 </thead>
 <tbody>
 {% for tdc, val in map.items %}
-  <tr>
-    <th scope="row" class="align-middle">
+  <tr class="no-gutters">
+    <th scope="row" class="align-middle bg-light">
       <span class="badge badge-warning verticaltext">{{ tdc }}</span>
     </th>
     {% for r in val %}
-    <td class="" style="width: 100pt; height: 100px;">
+    <td class="" style="height: 100px;">
       <div class="row text-center">
-
-      <div class="col-12">
+      <div class="col-12 bg-light">
         {% if r.status != State.NONE and r.status != State.KEPT and r.status != State.UPDATED %}
-        <a href="{% url 'pasttrec_trb3setup:rev' r.rev.id %}"><i class="fas fa-map-pin"></i></a>
+        <a href="{% url 'pasttrec_trb3setup:rev' r.rev.id %}" class="text-dark">
+        <i class="fas fa-exclamation-triangle"></i></a>
         {% else %}
         <i class="fas"></i>
         {% endif %}
       </div>
-      <div class="col-12 align-center">
+      <div class="col-12">
         {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with c=r.card1 s=r.card1_s state=State %}
       </div>
       <div class="col-12">
@@ -65,6 +67,7 @@
       </div>
     </div>
    {% endfor %}
+   <td class="bg-light"></td>
   </tr>
 {% endfor %}
 </tbody>

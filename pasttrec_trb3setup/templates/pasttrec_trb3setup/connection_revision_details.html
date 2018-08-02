@@ -29,11 +29,14 @@ function json_download() {
   <nav><ul class="pagination">
   {% for cr in revlist %}
     {%if cr.active %}
-    <li class="page-item"><a class="page-link active" href="{% url 'pasttrec_trb3setup:rev' cr.pk %}">
+    <li class="page-item active">
     {% else %}
-    <li class="page-item"><a class="page-link" href="{% url 'pasttrec_trb3setup:rev' cr.pk %}">
+    <li class="page-item">
     {% endif %}
-    {{ cr.name }}</a></li>
+    <a class="page-link" href="{% url 'pasttrec_trb3setup:rev' cr.pk %}">
+      <small>{{ cr.name }}</small>
+    </a>
+    </li>
   {% endfor %}
   </li></nav>
 {% endif %}
@@ -51,6 +54,21 @@ function json_download() {
       <i class="fas fa-file-import"></i> Import settings
     </a>
   </nav>
+
+<br />
+
+<h5>Legend</h5>
+<div class="row">
+<div class="col-4">
+<a href="#"><i class="fas fa-edit"></i> Edit</a>  - edit connection in current revision
+</div>
+<div class="col-4">
+<a href="#" class="text-danger"><i class="fas fa-edit"></i> Edit</a> - edit connection in another revision
+</div>
+<div class="col-4">
+<a href="#"><i class="fas fa-plus-square"></i> Add</a>  - add connection in current revision
+</div>
+</div>
 
 <br />
 
@@ -77,9 +95,18 @@ function json_download() {
     <td>{% if s.card2 %}{% include 'pasttrec_trb3setup/_card_detail.html' with card=s.card2 %}{% endif %}</td>
     <td>{% if s.card3 %}{% include 'pasttrec_trb3setup/_card_detail.html' with card=s.card3 %}{% endif %}</td>
     <td>
-      <a href="{% url 'admin:pasttrec_trb3setup_connection_change' s.pk %}">
+      {% if s.r.revision.pk == revision.pk %}
+      <a href="{% url 'admin:pasttrec_trb3setup_connection_change' s.r.revision.pk %}">
       <i class="fas fa-edit"></i> Edit
       </a>
+      {% else %}
+      <a href="{% url 'admin:pasttrec_trb3setup_connection_change' s.r.revision.pk %}" class="text-danger">
+      <i class="fas fa-edit"></i> Edit
+      </a>
+      <a href="{% url 'admin:pasttrec_trb3setup_connection_change' s.r.revision.pk %}">
+      <i class="fas fa-plus-square"></i> Add
+      </a>
+      {% endif %}
     </td>
   </tr>
   {% endfor %}
