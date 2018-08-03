@@ -2,7 +2,7 @@ from django import forms
 from django.core.validators import FileExtensionValidator
 import datetime, json
 
-from .models import Revision, Card
+from .models import Card, CardSettings, Connection, Revision
 
 class RevisionForm(forms.ModelForm):
     creation_on = forms.SplitDateTimeField(initial=datetime.datetime.now, widget=forms.SplitDateTimeWidget)
@@ -41,3 +41,15 @@ class CardInsertForm(forms.ModelForm):
     class Meta:
         model = Card
         fields = [ 'name', 'notes' ]
+
+class CardSettingsForm(forms.ModelForm):
+    class Meta:
+        model = CardSettings
+        fields = '__all__'
+
+class ConnectionForm(forms.ModelForm):
+    step = forms.IntegerField()
+
+    class Meta:
+        model = Connection
+        fields = [ 'revision', 'tdc', 'card1', 'card2', 'card3' ]

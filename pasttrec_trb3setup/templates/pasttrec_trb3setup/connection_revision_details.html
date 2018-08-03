@@ -96,14 +96,14 @@ function json_download() {
     <td>{% if s.card3 %}{% include 'pasttrec_trb3setup/_card_detail.html' with card=s.card3 %}{% endif %}</td>
     <td>
       {% if s.r.revision.pk == revision.pk %}
-      <a href="{% url 'admin:pasttrec_trb3setup_connection_change' s.r.revision.pk %}">
+      <a href="{% url 'pasttrec_trb3setup:change_connection' s.r.pk %}">
       <i class="fas fa-edit"></i> Edit
       </a>
       {% else %}
-      <a href="{% url 'admin:pasttrec_trb3setup_connection_change' s.r.revision.pk %}" class="text-danger">
+      <a href="{% url 'pasttrec_trb3setup:change_connection' s.r.pk %}" class="text-danger">
       <i class="fas fa-edit"></i> Edit
       </a>
-      <a href="{% url 'admin:pasttrec_trb3setup_connection_change' s.r.revision.pk %}">
+      <a href="{% url 'pasttrec_trb3setup:add_connection' s.r.pk s.tdc.pk %}">
       <i class="fas fa-plus-square"></i> Add
       </a>
       {% endif %}

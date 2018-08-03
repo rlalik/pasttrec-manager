@@ -4,7 +4,7 @@ from django.views import generic
 import json, pasttrec
 
 from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
-from ..forms import CardInsertForm
+from ..forms import CardInsertForm, CardSettingsForm
 # Create your views here.
 
 class CardView(generic.DetailView):
@@ -66,6 +66,30 @@ def insert_cards_view(request):
         return render(
             request,
             'pasttrec_trb3setup/insert_cards.html',
+            context = {
+                'form' : form,
+            }
+        );
+
+
+def add_settings_view(request, card=None, rev=None):
+    if request.method == 'POST':
+        form = CardSettingsForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('pasttrec_trb3setup:card', form.cleaned_data['card'].pk)
+        else:
+            return redirect('pasttrec_trb3setup:add_settings')
+
+    else:
+        form = CardSettingsForm(initial={
+            'card' : card,
+            'revision' : rev,
+            })
+        return render(
+            request,
+            'pasttrec_trb3setup/add_settings.html',
             context = {
                 'form' : form,
             }

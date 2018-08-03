@@ -17,13 +17,18 @@
 
 <h3>Setup map</h3>
 <h5>Legend</h5>
+<h6>Events</h6>
 <div class="row">
 <div class="col-2"><i class="fas fa-plug"></i> - card inserted</div>
 <div class="col-2"><i class="fas fa-retweet"></i> - card replaced</div>
 <div class="col-2"><i class="fas fa-pen-square"></i> - new card settings</div>
 <div class="col-2"><i class="fas fa-minus-circle"></i> - card removed</div>
 <div class="col-3"><i class="fas fa-exclamation-triangle"></i> - connection change event</div>
-
+</div>
+<h6>Actions</h6>
+<div class="row">
+<div class="col-2"><span class="text-success"><i class="fas fa-plus-square"></i></span> - add connection</div>
+<div class="col-2"><span class="text-success"><i class="fas fa-plus"></i></span> - add card settings</div>
 </div>
 <br />
 
@@ -41,29 +46,30 @@
 </thead>
 <tbody>
 {% for tdc, val in map.items %}
-  <tr class="no-gutters">
+  <tr>
     <th scope="row" class="align-middle bg-light">
       <span class="badge badge-warning verticaltext">{{ tdc }}</span>
     </th>
     {% for r in val %}
-    <td class="" style="height: 100px;">
+    <td>
       <div class="row text-center">
       <div class="col-12 bg-light">
         {% if r.status != State.NONE and r.status != State.KEPT and r.status != State.UPDATED %}
-        <a href="{% url 'pasttrec_trb3setup:rev' r.rev.id %}" class="text-dark">
+        <a href="{% url 'pasttrec_trb3setup:rev' r.rev.id %}" class="text-warning">
         <i class="fas fa-exclamation-triangle"></i></a>
         {% else %}
-        <i class="fas"></i>
+        <a href="{% url 'pasttrec_trb3setup:add_connection' r.rev.pk r.tdc.pk %}" class="text-success">
+        <i class="fas fa-plus-square"></i></a>
         {% endif %}
       </div>
       <div class="col-12">
-        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with c=r.card1 s=r.card1_s state=State %}
+        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with r=r.rev c=r.card1 s=r.card1_s state=State %}
       </div>
       <div class="col-12">
-        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with c=r.card2 s=r.card2_s state=State %}
+        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with r=r.rev c=r.card2 s=r.card2_s state=State %}
       </div>
       <div class="col-12">
-        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with c=r.card3 s=r.card3_s state=State %}
+        {% include 'pasttrec_trb3setup/_map_card_detail_stack.html' with r=r.rev c=r.card3 s=r.card3_s state=State %}
       </div>
     </div>
    {% endfor %}

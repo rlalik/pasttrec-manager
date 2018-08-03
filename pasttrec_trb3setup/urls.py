@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 app_name = 'passtrec_trb3setup'
 
@@ -12,6 +12,17 @@ urlpatterns = [
     path('card/<int:pk>', cards.CardView.as_view(), name='card'),
     path('card/insert', cards.insert_card_view, name='insert_card'),
     path('card/multiple', cards.insert_cards_view, name='insert_cards'),
+
+    path('card/settings', cards.add_settings_view, name='add_settings'),
+    path('card/settings/card/<int:card>', cards.add_settings_view, name='add_settings_by_card'),
+    path('card/settings/<int:card>', cards.add_settings_view, name='add_settings_by_revision'),
+    path('card/settings/<int:card>/<int:rev>', cards.add_settings_view, name='add_settings'),
+
+    path('connection/add', connections.add_connection_view, name='add_connection'),
+    path('connection/add/rev/<int:rev>', connections.add_connection_view, name='add_connection_by_rev'),
+    path('connection/add/tdc/<int:tdc>', connections.add_connection_view, name='add_connection_by_tdc'),
+    path('connection/add/<int:rev>/<int:tdc>', connections.add_connection_view, name='add_connection'),
+    path('connection/change/<int:pk>', connections.edit_connection_view, name='change_connection'),
 
     path('export/json/<int:pk>', exports.export_json_view, name='export_json'),
     path('import/select/<int:setup>', exports.import_select_view, name='import_select_revision'),

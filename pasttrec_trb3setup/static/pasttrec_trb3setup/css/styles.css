@@ -13,16 +13,19 @@
     position: absolute;
 }
 
-.card_card {
-    border: 1px solid green;
-}
-
 .card_bkg {
     position: relative;
     width: 100px;
 }
 
 .card_text {
+    position: absolute;
+    top: -5px;
+    left: 77px;
+    font-size: 90%;
+}
+
+.card_action {
     position: absolute;
     top: -5px;
     left: 77px;

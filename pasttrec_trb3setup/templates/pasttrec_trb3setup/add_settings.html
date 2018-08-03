@@ -1,0 +1,34 @@
+{% extends 'pasttrec_trb3setup/base.html' %}
+{% load i18n filters %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item active" >{{ setup.name }}</li>
+  </ol>
+</nav>
+
+{% if form %}
+<h3>Add settings</h3>
+
+<form action="{% url 'pasttrec_trb3setup:add_settings' %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div>
+    <input class="btn" type="submit" value="{% trans 'Save' %}" />
+    <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
+  </div>
+</form>
+{% endif %}
+
+</div>
+</div>
+
+</div>
+{% endblock %}

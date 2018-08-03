@@ -132,11 +132,11 @@ def create_revisions_map(setup):
             revision=revs[_r]
         )
 
+        rev = revs[_r]
         for c in cons:
             _tdc = c.tdc
             tdc = _tdc.trbnetid
 
-            rev = c.revision
             _c1 = c.card1
             _c2 = c.card2
             _c3 = c.card3
@@ -146,7 +146,6 @@ def create_revisions_map(setup):
                 map[tdc][_r]['status'] = State.REMOVED
                 continue
 
-            map[tdc][_r]['tdc'] = _tdc
             if _r == 0:
                 c1 = find_last_card_revision(_c1, rev)
                 c2 = find_last_card_revision(_c2, rev)
@@ -160,18 +159,18 @@ def create_revisions_map(setup):
                 map[tdc][0]['card1_s'] = State.ADDED if c1 else State.NONE
                 map[tdc][0]['card2_s'] = State.ADDED if c2 else State.NONE
                 map[tdc][0]['card3_s'] = State.ADDED if c3 else State.NONE
-                map[tdc][0]['rev'] = revs[0]
             else:
                 map[tdc][_r]['status'] = State.CHANGED
                 map[tdc][_r]['card1'] = _c1
                 map[tdc][_r]['card2'] = _c2
                 map[tdc][_r]['card3'] = _c3
 
-        cards = CardSettings.objects.filter(
-            revision=revs[_r]
-        )
-
     for k, v in map.items():
+        map[k][0]['rev'] = revs[0]
+
+        tdc = TDC.objects.get(trbnetid=k)
+        map[k][0]['tdc'] = tdc
+
         for _r in range(1, nrevs):
             
             # status in previous revision
@@ -189,6 +188,7 @@ def create_revisions_map(setup):
             _c3_curr = v[_r]['card3']
 
             map[k][_r]['rev'] = revs[_r]
+            map[k][_r]['tdc'] = tdc
 
             # if got inactive/cards removed
 
