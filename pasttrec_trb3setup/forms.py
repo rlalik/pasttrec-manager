@@ -42,10 +42,21 @@ class CardInsertForm(forms.ModelForm):
         model = Card
         fields = [ 'name', 'notes' ]
 
+class CardInsertMultipleForm(forms.ModelForm):
+    class Meta:
+        model = Card
+        fields = [ 'name', 'notes' ]
+        widgets = {
+            'name': forms.Textarea(attrs={'cols': 80, 'rows': 5}),
+        }
+
 class CardSettingsForm(forms.ModelForm):
     class Meta:
         model = CardSettings
         fields = '__all__'
+
+class CardSettingsMassChangeForm(forms.Form):
+    threshold = forms.IntegerField(min_value = 0, max_value = 31, required = False)
 
 class ConnectionForm(forms.ModelForm):
     step = forms.IntegerField()

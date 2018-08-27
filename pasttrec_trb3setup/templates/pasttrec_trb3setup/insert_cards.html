@@ -15,7 +15,7 @@
 </nav>
 
 {% if form %}
-<h3>Insert card</h3>
+<h3>Insert multiple cards</h3>
 
 <form action="{% url 'pasttrec_trb3setup:insert_cards' %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
@@ -33,7 +33,7 @@
     </small></td></tr>
   </table>
   <div>
-    <input class="btn" type="submit" value="{% trans 'Upload' %}" />
+    <input class="btn" type="submit" value="{% trans 'Insert' %}" />
     <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
   </div>
 </form>

@@ -29,6 +29,7 @@
 <div class="row">
 <div class="col-2"><span class="text-success"><i class="fas fa-plus-square"></i></span> - add connection</div>
 <div class="col-2"><span class="text-success"><i class="fas fa-plus"></i></span> - add card settings</div>
+<div class="col-3"><span class="text-success"><i class="fas fa-pen text-primary"></i></span> - change all cards settings</div>
 </div>
 <br />
 
@@ -36,12 +37,12 @@
 <thead>
   <tr class="table-info text-center">
     <th scope="col" class="align-middle">TDC</th>
-    {% if object_list %}{% for rev in object_list reversed %}
+    {% if object_list %}{% for rev in object_list %}
     <th scope="col"><small>
       <a class="text-small" href="{% url 'pasttrec_trb3setup:rev' rev.id %}">{{ rev.creation_on }}</a>
     </small></th>
     {% endfor %}{% endif %}
-    <th scope="col" class="align-middle bg-light"><a class="text-small" href="" alt="Insert revision"><i class="fas fa-plus-square"></i></a></th>
+    <th scope="col" class="align-middle bg-light"><a class="text-small" href="{% url 'pasttrec_trb3setup:rev_add' setup.pk %}" alt="Insert revision"><i class="fas fa-plus-square"></i></a></th>
   </tr>
 </thead>
 <tbody>
@@ -73,24 +74,33 @@
       </div>
     </div>
    {% endfor %}
-   <td class="bg-light"></td>
+   <td class="align-middle bg-light">
+     <span class="badge badge-warning verticaltext">{{ tdc }}</span></td>
   </tr>
 {% endfor %}
+  <tr class="align-middle bg-light">
+    <th scope="row"></th>
+    {% if object_list %}{% for rev in object_list %}
+    <td class="text-center">
+      <a class="text-small" href="{% url 'pasttrec_trb3setup:change_settings_mass' rev.pk %}"><i class="fas fa-pen"></i></a>
+    </td>
+    {% endfor %}{% endif %}
+    <td></td>
+  </tr>
 </tbody>
 </table>
 
 {% endif %}
 
-<h3>Select revision</h3>
-
-{% if object_list %}
+{% if object_list2 %}
+  <h3>Select revision</h3>
   <nav class="nav flex-column">
   {% for rev in object_list %}
     <a class="nav-link" href="{% url 'pasttrec_trb3setup:rev' rev.id %}">{{ rev.creation_on }}</a>
   {% endfor %}
   </nav>
 {% else %}
-  <p>No revisions are available.</p>
+<!--   <p>No revisions are available.</p> -->
 {% endif %}
 
 </div>

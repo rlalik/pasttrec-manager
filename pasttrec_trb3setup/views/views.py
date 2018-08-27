@@ -5,6 +5,7 @@ import json, pasttrec
 from enum import Enum
 
 from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
+from ..forms import RevisionForm
 # Create your views here.
 
 def find_last_card_revision(card, rev):
@@ -247,7 +248,7 @@ class SetupView(generic.ListView):
 
     def get_queryset(self, **kwargs):
         setup_id = self.kwargs.get('setup_id', None)
-        return Revision.objects.filter(setup__pk=setup_id).order_by('-creation_on')
+        return Revision.objects.filter(setup__pk=setup_id).order_by('creation_on')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -293,3 +294,23 @@ class RevisionView(generic.DetailView):
         context['snapshot'] = s
 
         return context
+
+def revision_add_view(request, setup_id):
+    if request.method == 'POST':
+        form = RevisionForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+        return redirect('pasttrec_trb3setup:setup', form.cleaned_data['setup'].pk)
+
+    else:
+        _setup = Setup.objects.get(pk=setup_id)
+        _form = RevisionForm(initial={'setup': setup_id})
+        return render(
+            request,
+            'pasttrec_trb3setup/insert_revision.html',
+            context = {
+                'setup' : _setup,
+                'form' : _form
+            }
+        );

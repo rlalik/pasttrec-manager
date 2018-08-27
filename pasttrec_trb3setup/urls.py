@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('setup/<int:setup_id>', views.SetupView.as_view(), name='setup'),
     path('rev/<int:pk>', views.RevisionView.as_view(), name='rev'),
+    path('rev/add/<int:setup_id>', views.revision_add_view, name='rev_add'),
 
     path('card/<int:pk>', cards.CardView.as_view(), name='card'),
     path('card/insert', cards.insert_card_view, name='insert_card'),
@@ -17,6 +18,9 @@ urlpatterns = [
     path('card/settings/card/<int:card>', cards.add_settings_view, name='add_settings_by_card'),
     path('card/settings/<int:card>', cards.add_settings_view, name='add_settings_by_revision'),
     path('card/settings/<int:card>/<int:rev>', cards.add_settings_view, name='add_settings'),
+
+    path('card/settings/change/<int:pk>', cards.change_settings_view, name='change_settings'),
+    path('card/settings/mass/<int:rev>', cards.change_settings_mass_view, name='change_settings_mass'),
 
     path('connection/add', connections.add_connection_view, name='add_connection'),
     path('connection/add/rev/<int:rev>', connections.add_connection_view, name='add_connection_by_rev'),

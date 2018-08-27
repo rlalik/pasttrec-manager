@@ -1,0 +1,49 @@
+{% extends 'pasttrec_trb3setup/base.html' %}
+{% load i18n filters %}
+
+{% block head_extras %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item active" >{{ setup.name }}</li>
+  </ol>
+</nav>
+
+<h3>Create new revision</h3>
+
+<form action="{% url 'pasttrec_trb3setup:rev_add' setup.pk %}" method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  <table class="table">
+    <tr><th>{{ form.setup.label_tag }}</th>
+    <td>{{ form.setup }}</td></tr>
+    <tr><th>{{ form.creation_on.label_tag }}</th>
+    <td>{{ form.creation_on|adddtclass:'vDateField ce-dtdate;vTimeField ce-dttime' }}{{ form.creation_on.errors }}</td></tr>
+  </table>
+  <div>
+    <input class="btn" type="submit" value="{% trans 'Create' %}" />
+    <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
+  </div>
+</form>
+
+</div>
+</div>
+
+</div>
+{% endblock %}

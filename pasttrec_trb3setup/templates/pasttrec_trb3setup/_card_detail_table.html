@@ -115,7 +115,7 @@
     <tr class="table-primary">
       <th scope="row" colspan="7">{{ card.revision }}</th>
       <td colspan="2" class="text-right">
-      <a href="{% url 'admin:pasttrec_trb3setup_cardsettings_change' card.pk %}"><i class="fas fa-edit"></i>
+      <a href="{% url 'pasttrec_trb3setup:change_settings' card.pk %}"><i class="fas fa-edit"></i>
       <a href="{% url 'pasttrec_trb3setup:card' card.card.pk %}"><i class="fas fa-info-circle"></i>
       </td>
     </tr>
