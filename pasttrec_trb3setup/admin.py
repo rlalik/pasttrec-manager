@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import reverse, resolve
 
 from .models import Card, CardSettings, Connection, Revision, Setup, TDC
-from .querysets import queryset_for_card_field
+from .querysets import queryset_for_card_field, queryset_for_admin_card_field
 # Register your models here.
 
 class ConnectionInline(admin.StackedInline):
@@ -13,7 +13,7 @@ class ConnectionInline(admin.StackedInline):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name in [ "card1", "card2", "card3" ]:
-            kwargs["queryset"] = queryset_for_card_field(
+            kwargs["queryset"] = queryset_for_admin_card_field(
                 db_field.name, request, **kwargs)
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
@@ -67,7 +67,7 @@ class ConnectionAdmin(admin.ModelAdmin):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name in [ "card1", "card2", "card3" ]:
-            kwargs["queryset"] = queryset_for_card_field(
+            kwargs["queryset"] = queryset_for_admin_card_field(
                 db_field.name, request, **kwargs)
 
         return super().formfield_for_foreignkey(db_field, request, **kwargs)

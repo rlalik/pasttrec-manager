@@ -49,7 +49,7 @@
 {% for tdc, val in map.items %}
   <tr>
     <th scope="row" class="align-middle bg-light">
-      <span class="badge badge-warning verticaltext">{{ tdc }}</span>
+      <span class="badge badge-warning verticaltext align-middle" style="margin-left: -10px;">{{ tdc }}</span>
     </th>
     {% for r in val %}
     <td>
@@ -59,7 +59,7 @@
         <a href="{% url 'pasttrec_trb3setup:rev' r.rev.id %}" class="text-warning">
         <i class="fas fa-exclamation-triangle"></i></a>
         {% else %}
-        <a href="{% url 'pasttrec_trb3setup:add_connection' r.rev.pk r.tdc.pk %}" class="text-success">
+        <a href="{% url 'pasttrec_trb3setup:insert_connection' r.rev.pk r.tdc.pk %}" class="text-success">
         <i class="fas fa-plus-square"></i></a>
         {% endif %}
       </div>
@@ -75,7 +75,7 @@
     </div>
    {% endfor %}
    <td class="align-middle bg-light">
-     <span class="badge badge-warning verticaltext">{{ tdc }}</span></td>
+     <span class="badge badge-warning verticaltext" style="margin-left: -13px;">{{ tdc }}</span></td>
   </tr>
 {% endfor %}
   <tr class="align-middle bg-light">

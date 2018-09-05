@@ -1,5 +1,5 @@
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 import json, pasttrec
 
@@ -97,9 +97,37 @@ def add_settings_view(request, card=None, rev=None):
             }
         );
 
+def delete_settings_view(request, card_pk=None):
+    if request.method == 'POST':
+        try:
+            card = CardSettings.objects.get(pk=card_pk)
+            card_id = card.card.pk
+            card.delete()
+            return redirect('pasttrec_trb3setup:card', card_id)
+
+        except CardSettings.DoesNotExist:
+            return redirect('pasttrec_trb3setup:index')
+
+        pass
+
+    else:
+        try:
+            card = CardSettings.objects.get(pk=card_pk)
+        except CardSettings.DoesNotExist:
+            return redirect('pasttrec_trb3setup:index')
+
+        return render(
+            request,
+            'pasttrec_trb3setup/card_settings_remove.html',
+            context = {
+                'card_revision' : card,
+            }
+        );
+
 def change_settings_view(request, pk):
     if request.method == 'POST':
-        form = CardSettingsForm(request.POST)
+        instance = get_object_or_404(CardSettings, pk=pk)
+        form = CardSettingsForm(request.POST, instance=instance)
 
         if form.is_valid():
             form.save()
@@ -111,8 +139,9 @@ def change_settings_view(request, pk):
         form = CardSettingsForm(instance=CardSettings.objects.get(pk=pk))
         return render(
             request,
-            'pasttrec_trb3setup/card_settings.html',
+            'pasttrec_trb3setup/card_settings_change.html',
             context = {
+                'settings_pk' : pk,
                 'form' : form,
             }
         );

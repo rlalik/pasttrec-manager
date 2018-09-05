@@ -15,9 +15,9 @@
 </nav>
 
 {% if form %}
-<h3>Add settings</h3>
+<h3>Change settings</h3>
 
-<form action="{% url 'pasttrec_trb3setup:add_settings' %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'pasttrec_trb3setup:change_settings' settings_pk %}" method="post" enctype="multipart/form-data">
 
   <div class="row">
   <div class="col border">

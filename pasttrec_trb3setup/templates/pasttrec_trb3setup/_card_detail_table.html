@@ -113,9 +113,10 @@
       <td class="table-warning text-center">{{ card.disabled_17|chdis|safe }}</td>
     </tr>
     <tr class="table-primary">
-      <th scope="row" colspan="7">{{ card.revision }}</th>
-      <td colspan="2" class="text-right">
-      <a href="{% url 'pasttrec_trb3setup:change_settings' card.pk %}"><i class="fas fa-edit"></i>
+      <th scope="row" colspan="5">{{ card.revision }}</th>
+      <td colspan="4" class="text-right">
+      <a class="mr-3" href="{% url 'pasttrec_trb3setup:delete_card_settings' card.pk %}"><i class="fas fa-trash text-danger"></i>
+      <a class="mr-2" href="{% url 'pasttrec_trb3setup:change_settings' card.pk %}"><i class="fas fa-edit"></i>
       <a href="{% url 'pasttrec_trb3setup:card' card.card.pk %}"><i class="fas fa-info-circle"></i>
       </td>
     </tr>

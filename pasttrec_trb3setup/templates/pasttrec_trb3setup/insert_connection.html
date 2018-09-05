@@ -15,13 +15,9 @@
 </nav>
 
 {% if form %}
-{% if form.step.value > 3 %}
-<h3>Change connection</h3>
-{% else %}
-<h3>Add connection</h3>
-{% endif %}
+<h3>Insert connection</h3>
 
-<form action="{% url 'pasttrec_trb3setup:add_connection' revision_pk tdc_pk %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'pasttrec_trb3setup:insert_connection' revision.pk tdc %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.non_field_errors }}
   <table class="table">
@@ -30,48 +26,19 @@
     <td>{{ form.revision }}{{ form.revision.errors }}</td></tr>
     <tr><th>{{ form.tdc.label_tag }}</th>
     <td>{{ form.tdc }}{{ form.tdc.errors }}</td></tr>
-    {% if form.step.value >= 3 %}
     <tr><th>{{ form.card1.label_tag }}</th>
     <td>{{ form.card1 }}{{ form.card1.errors }}</td></tr>
     <tr><th>{{ form.card2.label_tag }}</th>
     <td>{{ form.card2 }}{{ form.card2.errors }}</td></tr>
     <tr><th>{{ form.card3.label_tag }}</th>
     <td>{{ form.card3 }}{{ form.card3.errors }}</td></tr>
-    {% endif %}
   </table>
   <div>
-    {% if form.step.value > 3 %}
-    <input class="btn" type="submit" value="{% trans 'Save' %}" />
-    {% elif form.step.value == 3 %}
     <input class="btn" type="submit" value="{% trans 'Insert' %}" />
-    {% else %}
-    <input class="btn" type="submit" value="{% trans 'Next step' %}" />
-    {% endif %}
-    <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
   </div>
 </form>
 {% endif %}
 
-{% if cards_form %}
-<br />
-<h3>Asign cards to revision {{ rev.creation_on }}</h3>
-
-<form action="{% url 'pasttrec_trb3setup:import_json' rev.pk %}" method="post">
-  {% csrf_token %}
-  {{ cards_form.non_field_errors }}
-  <table class="table">
-{% for field in cards_form %}
-    <tr><th>{{ field.label_tag }}</th>
-    <td>{{ field }}{{ field.errors }}</td></tr>
-{% endfor %}
-  </table>
-  <div>
-    <input class="btn" type="submit" value="{% trans 'Insert' %}" />
-    <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
-  </div>
-</form>
-
-{% endif %}
 </div>
 </div>
 

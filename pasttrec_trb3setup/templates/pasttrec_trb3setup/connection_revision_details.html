@@ -78,11 +78,11 @@ function json_download() {
 <table class="table">
   <thead class="thead-dark">
     <tr>
-      <th scope="col" style="width: 5%">TRBNETid</th>
-      <th scope="col" style="width: 30%">Cable 1</th>
-      <th scope="col" style="width: 30%">Cable 2</th>
-      <th scope="col" style="width: 30%">Cable 3</th>
-      <th scope="col" style="width: 5%">Actions</th>
+      <th scope="col">TRBNETid</th>
+      <th scope="col" style="width: 28%">Cable 1</th>
+      <th scope="col" style="width: 28%">Cable 2</th>
+      <th scope="col" style="width: 28%">Cable 3</th>
+      <th scope="col" style="width: 10%">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -97,7 +97,10 @@ function json_download() {
     <td>
       {% if s.r.revision.pk == revision.pk %}
       <a href="{% url 'pasttrec_trb3setup:change_connection' s.r.pk %}">
-      <i class="fas fa-edit"></i> Edit
+      <i class="fas fa-edit"></i> Edit</a>
+      <br />
+      <a href="{% url 'pasttrec_trb3setup:delete_connection' s.r.pk %}">
+      <i class="fas fa-trash"></i> Delete
       </a>
       {% else %}
       <a href="{% url 'pasttrec_trb3setup:change_connection' s.r.pk %}" class="text-danger">

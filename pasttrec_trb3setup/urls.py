@@ -21,12 +21,15 @@ urlpatterns = [
 
     path('card/settings/change/<int:pk>', cards.change_settings_view, name='change_settings'),
     path('card/settings/mass/<int:rev>', cards.change_settings_mass_view, name='change_settings_mass'),
+    path('card/settings/delete/<int:card_pk>', cards.delete_settings_view, name='delete_card_settings'),
 
     path('connection/add', connections.add_connection_view, name='add_connection'),
     path('connection/add/rev/<int:rev>', connections.add_connection_view, name='add_connection_by_rev'),
     path('connection/add/tdc/<int:tdc>', connections.add_connection_view, name='add_connection_by_tdc'),
     path('connection/add/<int:rev>/<int:tdc>', connections.add_connection_view, name='add_connection'),
     path('connection/change/<int:pk>', connections.edit_connection_view, name='change_connection'),
+    path('connection/delete/<int:pk>', connections.delete_connection_view, name='delete_connection'),
+    path('connection/insert/<int:rev>/<int:tdc>', connections.insert_connection_view, name='insert_connection'),
 
     path('export/json/<int:pk>', exports.export_json_view, name='export_json'),
     path('import/select/<int:setup>', exports.import_select_view, name='import_select_revision'),

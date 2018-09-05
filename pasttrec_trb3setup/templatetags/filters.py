@@ -17,6 +17,14 @@ def adddtclass(value, arg):
 def addclass(value, arg):
     return value.as_widget(attrs = {'class': arg})
 
+@register.filter(name='addrange')
+def addrange(value, arg):
+    a = arg.split(' ')
+    return value.as_widget(attrs = {
+        'min': a[0],
+        'max': a[1],
+        })
+
 @register.filter(name='setcolortype')
 def setcolortype(value):
     value.field.widget = ColorInput()
