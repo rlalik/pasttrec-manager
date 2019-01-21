@@ -21,7 +21,11 @@
     <div class="card">
     <div class="card-header"><a href="{% url 'pasttrec_trb3setup:rev' card_revision.revision.pk %}">{{ card_revision.revision }}</a></div>
     <div class="card-body">
-    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card_revision %}
+    {% if card_revision.map_to %}
+    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card_revision data=card_revision.map_to %}
+    {% else %}
+    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card_revision data=card_revision %}
+    {% endif %}
     </div></div>
 
     <div class="alert alert-danger" role="alert">

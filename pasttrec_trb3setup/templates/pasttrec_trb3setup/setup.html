@@ -13,7 +13,12 @@
   </ol>
 </nav>
 
-{% if map %}
+<h4>Tools</h4>
+  <nav class="nav">
+    <a class="nav-link" href="{% url 'pasttrec_trb3setup:import_select_revision' setup.id %}">
+      <i class="fas fa-file-import"></i> Import settings
+    </a>
+  </nav>
 
 <h3>Setup map</h3>
 <h5>Legend</h5>
@@ -90,7 +95,6 @@
 </tbody>
 </table>
 
-{% endif %}
 
 {% if object_list2 %}
   <h3>Select revision</h3>

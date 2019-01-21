@@ -5,7 +5,11 @@
   </summary>
   <div style="font-size: 70%;">
 
-{% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card %}
+{% if card.map_to %}
+{% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card data=card.map_to%}
+{% else %}
+{% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card data=card %}
+{% endif %}
 
   </div>
 </details>

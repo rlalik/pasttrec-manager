@@ -13,6 +13,13 @@
   </ol>
 </nav>
 
+<h4>Tools</h4>
+  <nav class="nav">
+    <a class="nav-link" href="{% url 'pasttrec_trb3setup:add_settings_by_card' object.id %}">
+      <i class="fas fa-pen-square"></i> Add settings
+    </a>
+  </nav>
+
 <h3>Revisions</h3>
 
 {% if revisions %}
@@ -21,7 +28,12 @@
     <div class="card">
     <div class="card-header"><a href="{% url 'pasttrec_trb3setup:rev' r.revision.pk %}">{{ r.revision }}</a></div>
     <div class="card-body">
-    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=r %}
+    {{ r }}|||{{ r.map_to }}
+    {% if r.map_to %}
+    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=r data=r.map_to %}
+    {% else %}
+    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=r data=r %}
+    {% endif %}
     </div></div>
     </br>
   {% endfor %}
