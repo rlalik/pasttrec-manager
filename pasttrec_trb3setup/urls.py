@@ -32,6 +32,7 @@ urlpatterns = [
     path('connection/insert/<int:rev>/<int:tdc>', connections.insert_connection_view, name='insert_connection'),
 
     path('export/json/<int:pk>', exports.export_json_view, name='export_json'),
+    path('export/shell/<int:pk>', exports.export_shell_view, name='export_shell'),
     path('import/select/<int:setup>', exports.import_select_view, name='import_select_revision'),
     path('import/insert/<int:setup>', exports.import_insert_view, name='import_insert_revision'),
     path('import/file/<int:rev>', exports.import_file_view, name='import_file'),

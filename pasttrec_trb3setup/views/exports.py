@@ -6,6 +6,7 @@ import json, pasttrec
 from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
 from ..forms import CardConfigInsertForm, JsonUploadFileForm, RevisionForm
 from ..exports import export_json
+from .views import create_revision_snapshot
 # Create your views here.
 
 def export_json_view(request, pk):
@@ -18,6 +19,15 @@ def export_json_view(request, pk):
     return response
     #return JsonResponse(s)
     #return redirect('pasttrec_trb3setup:rev', pk=pk)
+
+def export_shell_view(request, pk):
+    revision = Revision.objects.get(pk=pk)
+    snapshot = create_revision_snapshot(revision)
+    s = export_json(snapshot)
+
+    response = HttpResponse('\n'.join(pasttrec.dump_script(s)), content_type='text/x-shellscript')
+    response['Content-Disposition'] = 'attachment; filename=export.sh'
+    return response
 
 def import_select_view(request, setup):
     _setup = Setup.objects.get(pk=setup)

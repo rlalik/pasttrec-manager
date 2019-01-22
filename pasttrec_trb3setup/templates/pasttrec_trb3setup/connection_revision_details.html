@@ -5,6 +5,9 @@
 function json_download() {
     window.location.href = "{% url 'pasttrec_trb3setup:export_json' revision.pk %}"
 }
+function shell_download() {
+    window.location.href = "{% url 'pasttrec_trb3setup:export_shell' revision.pk %}"
+}
 </script>
 {% endblock %}
 
@@ -49,6 +52,7 @@ function json_download() {
       <i class="fas fa-edit"></i> Edit revision
     </a>
     <a class="nav-link" href="#" onclick="json_download()"><i class="fas fa-file-export"></i> Export JSON</a>
+    <a class="nav-link" href="#" onclick="shell_download()"><i class="fas fa-file-export"></i> Export SHELL</a>
 <!--     <a class="nav-link" href="">Export trbcmd configuration</a> -->
     <a class="nav-link" href="{% url 'pasttrec_trb3setup:import_select_revision' object.setup.id %}">
       <i class="fas fa-file-import"></i> Import settings
