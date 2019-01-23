@@ -56,9 +56,9 @@ def create_revision_snapshot(revision):
 
         snapshot[ntdc]['r'] = r
         snapshot[ntdc]['tdc'] = tdc
-        snapshot[ntdc]['card1'] = c1
-        snapshot[ntdc]['card2'] = c2
-        snapshot[ntdc]['card3'] = c3
+        snapshot[ntdc]['card1'] = c1 if c1.map_to is None else c1.map_to
+        snapshot[ntdc]['card2'] = c2 if c2.map_to is None else c2.map_to
+        snapshot[ntdc]['card3'] = c3 if c3.map_to is None else c3.map_to
 
     return snapshot
 
