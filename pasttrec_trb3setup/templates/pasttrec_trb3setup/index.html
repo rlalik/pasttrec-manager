@@ -16,7 +16,8 @@
 
 <div class="row">
 <div class="col">
-<h3>Select setup</h3>
+<h4>Select setup</h4>
+<hr />
 {% if setups %}
     <nav class="nav flex-column">
     {% for setup in setups %}
@@ -29,7 +30,8 @@
 
 </div>
 <div class="col">
-<h3>Select card</h3>
+<h4>Select card</h4>
+<hr />
 {% if cards %}
 <!--     <nav class="nav flex-column"> -->
     <h5>C</h5>
@@ -57,7 +59,7 @@
 
 <br /><br />
 
-<h3>Tools</h3>
+<h5>Tools</h5>
   <nav class="nav">
     <a class="nav-link" href="{% url 'pasttrec_trb3setup:insert_card' %}">
       <i class="fas fa-plus-square"></i> Insert card

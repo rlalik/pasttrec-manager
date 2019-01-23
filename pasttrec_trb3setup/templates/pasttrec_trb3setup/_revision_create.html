@@ -1,0 +1,24 @@
+{% load i18n filters %}
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label" for="id_setup">{{ form.setup.label_tag }}</label>
+    <div class="col-10 form-inline">
+    {{ form.setup|addclass:"custom-select w-25" }}
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-2 col-form-label" for="id_creation_on">{{ form.creation_on.label_tag }}</label>
+    <div class="col-10 form-inline">
+    {{ form.creation_on|adddtclass:'vDateField ce-dtdate form-control w-25;vTimeField ce-dttime form-control w-25 ml-2' }}{{ form.creation_on.errors }}
+    </div>
+  </div>
+
+  {% if redirect_to %}
+  <input type="hidden" name="redirect_to" value="{{ redirect_to }}" />
+  {% endif %}
+
+  <div>
+    <input class="btn" type="submit" value="{% trans 'Create' %}" />
+    <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
+  </div>

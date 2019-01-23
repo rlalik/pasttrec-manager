@@ -2,8 +2,7 @@
 {% load i18n filters %}
 
 {% block head_extras %}
-<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
-<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/widgets.css" />
 
 <script type="text/javascript" src="/admin/jsi18n/"></script>
 <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
@@ -25,7 +24,7 @@
   </ol>
 </nav>
 
-<h3>Select existing revision</h3>
+<h4>Select existing revision</h4>
 
 {% if object_list %}
     <nav class="nav flex-column">
@@ -38,21 +37,14 @@
 {% endif %}
 
 <br />
-<h3>Or create new revision</h3>
+<h4>Or create new revision</h4>
 
 <form action="{% url 'pasttrec_trb3setup:import_insert_revision' setup.pk %}" method="post">
   {% csrf_token %}
   {{ form.non_field_errors }}
-  <table class="table">
-    <tr><th>{{ form.setup.label_tag }}</th>
-    <td>{{ form.setup }}</td></tr>
-    <tr><th>{{ form.creation_on.label_tag }}</th>
-    <td>{{ form.creation_on|adddtclass:'vDateField ce-dtdate;vTimeField ce-dttime' }}{{ form.creation_on.errors }}</td></tr>
-  </table>
-  <div>
-    <input class="btn" type="submit" value="{% trans 'Create' %}" />
-    <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
-  </div>
+
+  {% include 'pasttrec_trb3setup/_revision_create.html' with form=form %}
+
 </form>
 
 </div>

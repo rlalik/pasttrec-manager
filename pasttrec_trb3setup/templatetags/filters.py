@@ -1,5 +1,6 @@
 from django import template
 from django.forms.boundfield import BoundField, BoundWidget
+from django.forms import Select, NumberInput
 
 register = template.Library()
 
@@ -15,7 +16,16 @@ def adddtclass(value, arg):
 
 @register.filter(name='addclass')
 def addclass(value, arg):
-    return value.as_widget(attrs = {'class': arg})
+    if isinstance(value, BoundField):
+        ## for select
+        if isinstance(value.field.widget, Select):
+          value.field.widget.attrs = {'class': arg}
+        elif isinstance(value.field.widget, NumberInput):
+          value.field.widget.attrs = {'class': arg}
+    else:
+        return value.as_widget(attrs = {'class': arg})
+
+    return value
 
 @register.filter(name='addrange')
 def addrange(value, arg):

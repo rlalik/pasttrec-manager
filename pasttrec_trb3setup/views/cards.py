@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
@@ -74,7 +75,7 @@ def insert_cards_view(request):
         );
 
 
-def add_settings_view(request, card=None, rev=None):
+def add_settings_view(request, card_pk=None, rev_pk=None):
     if request.method == 'POST':
         form = CardSettingsForm(request.POST)
 
@@ -85,15 +86,19 @@ def add_settings_view(request, card=None, rev=None):
             return redirect('pasttrec_trb3setup:add_settings')
 
     else:
+        card = Card.objects.get(pk=card_pk)
         form = CardSettingsForm(initial={
-            'card' : card,
-            'revision' : rev,
+            'card' : card_pk,
+            'revision' : rev_pk,
             })
         return render(
             request,
-            'pasttrec_trb3setup/card_settings.html',
+            'pasttrec_trb3setup/card_settings_change.html',
             context = {
+                'card' : card,
                 'form' : form,
+                'form_rev' : RevisionForm(),
+                'redirect_to' : reverse('pasttrec_trb3setup:add_settings_by_card', args=[card_pk]),
             }
         );
 
@@ -136,13 +141,15 @@ def change_settings_view(request, pk):
             return redirect('pasttrec_trb3setup:change_settings', pk)
 
     else:
-        form = CardSettingsForm(instance=CardSettings.objects.get(pk=pk))
+        cs = CardSettings.objects.get(pk=pk)
+        form = CardSettingsForm(instance=cs)
         return render(
             request,
             'pasttrec_trb3setup/card_settings_change.html',
             context = {
-                'settings_pk' : pk,
+                'settings' : cs,
                 'form' : form,
+                'redirect_to' : reverse('pasttrec_trb3setup:change_settings', pk),
             }
         );
 

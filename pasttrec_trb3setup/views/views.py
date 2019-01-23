@@ -56,9 +56,9 @@ def create_revision_snapshot(revision):
 
         snapshot[ntdc]['r'] = r
         snapshot[ntdc]['tdc'] = tdc
-        snapshot[ntdc]['card1'] = c1 if c1.map_to is None else c1.map_to
-        snapshot[ntdc]['card2'] = c2 if c2.map_to is None else c2.map_to
-        snapshot[ntdc]['card3'] = c3 if c3.map_to is None else c3.map_to
+        snapshot[ntdc]['card1'] = c1 if c1 is None or c1.map_to is None else c1.map_to
+        snapshot[ntdc]['card2'] = c2 if c2 is None or c2.map_to is None else c2.map_to
+        snapshot[ntdc]['card3'] = c3 if c3 is None or c3.map_to is None else c3.map_to
 
     return snapshot
 
@@ -295,11 +295,16 @@ class RevisionView(generic.DetailView):
 
         return context
 
-def revision_add_view(request, setup_id):
+def revision_add_view(request, setup_id = None):
     if request.method == 'POST':
         form = RevisionForm(request.POST)
         if form.is_valid():
             form.save()
+
+        print(request.POST)
+        redir_to =  request.POST.get("redirect_to", None)
+        if redir_to:
+            return redirect(redir_to)
 
         return redirect('pasttrec_trb3setup:setup', form.cleaned_data['setup'].pk)
 
@@ -308,7 +313,7 @@ def revision_add_view(request, setup_id):
         _form = RevisionForm(initial={'setup': setup_id})
         return render(
             request,
-            'pasttrec_trb3setup/insert_revision.html',
+            'pasttrec_trb3setup/revision_insert.html',
             context = {
                 'setup' : _setup,
                 'form' : _form

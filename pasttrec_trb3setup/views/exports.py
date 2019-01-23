@@ -35,7 +35,7 @@ def import_select_view(request, setup):
     _form = RevisionForm(initial={'setup': setup})
     return render(
         request,
-        'pasttrec_trb3setup/select_revision.html',
+        'pasttrec_trb3setup/revision_select.html',
         context = {
             'setup' : _setup,
             'object_list' : _rev,

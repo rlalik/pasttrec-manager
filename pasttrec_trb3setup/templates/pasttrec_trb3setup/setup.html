@@ -9,18 +9,13 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item" aria-current="page"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item" >Setup</li>
     <li class="breadcrumb-item active" >{{ setup.name }}</li>
   </ol>
 </nav>
 
-<h4>Tools</h4>
-  <nav class="nav">
-    <a class="nav-link" href="{% url 'pasttrec_trb3setup:import_select_revision' setup.id %}">
-      <i class="fas fa-file-import"></i> Import settings
-    </a>
-  </nav>
-
-<h3>Setup map</h3>
+<h4>Setup map</h4>
+<hr />
 <h5>Legend</h5>
 <h6>Events</h6>
 <div class="row">
@@ -36,7 +31,14 @@
 <div class="col-2"><span class="text-success"><i class="fas fa-plus"></i></span> - add card settings</div>
 <div class="col-3"><span class="text-success"><i class="fas fa-pen text-primary"></i></span> - change all cards settings</div>
 </div>
-<br />
+<hr />
+<h5>Tools</h5>
+  <nav class="nav">
+    <a class="nav-link" href="{% url 'pasttrec_trb3setup:import_select_revision' setup.id %}">
+      <i class="fas fa-file-import"></i> Import settings
+    </a>
+  </nav>
+<hr />
 
 <table id="table_map" class="table table-sm" style="width: 1px;">
 <thead>

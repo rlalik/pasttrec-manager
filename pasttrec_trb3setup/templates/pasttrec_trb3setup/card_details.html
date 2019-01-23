@@ -9,18 +9,20 @@
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item" >Card details</li>
     <li class="breadcrumb-item active" aria-current="page">{{ object.name }}</li>
   </ol>
 </nav>
 
-<h4>Tools</h4>
+<h4>Revisions</h4>
+<hr />
+<h5>Tools</h5>
   <nav class="nav">
     <a class="nav-link" href="{% url 'pasttrec_trb3setup:add_settings_by_card' object.id %}">
       <i class="fas fa-pen-square"></i> Add settings
     </a>
   </nav>
-
-<h3>Revisions</h3>
+<hr />
 
 {% if revisions %}
   {% for r in revisions %}
@@ -28,7 +30,6 @@
     <div class="card">
     <div class="card-header"><a href="{% url 'pasttrec_trb3setup:rev' r.revision.pk %}">{{ r.revision }}</a></div>
     <div class="card-body">
-    {{ r }}|||{{ r.map_to }}
     {% if r.map_to %}
     {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=r data=r.map_to %}
     {% else %}
