@@ -103,15 +103,13 @@ function shell_download() {
       <i class="fas fa-edit"></i> Edit</a>
       <br />
       <a href="{% url 'pasttrec_trb3setup:delete_connection' s.r.pk %}">
-      <i class="fas fa-trash"></i> Delete
-      </a>
+      <i class="fas fa-trash"></i> Delete</a>
       {% else %}
       <a href="{% url 'pasttrec_trb3setup:change_connection' s.r.pk %}" class="text-danger">
-      <i class="fas fa-edit"></i> Edit
-      </a>
+      <i class="fas fa-edit"></i> Edit</a>
+      <br />
       <a href="{% url 'pasttrec_trb3setup:add_connection' s.r.pk s.tdc.pk %}">
-      <i class="fas fa-plus-square"></i> Add
-      </a>
+      <i class="fas fa-plus-square"></i> Add</a>
       {% endif %}
     </td>
   </tr>
