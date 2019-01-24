@@ -9,6 +9,20 @@
 <script type="text/javascript" src="/static/admin/js/core.js"></script>
 <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
 <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+
+<script>
+function createCard(name) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+      location.reload();
+    }
+  }
+  console.log("{% url 'pasttrec_trb3setup:insert_card' %}/"+name);
+  xmlHttp.open("GET", "{% url 'pasttrec_trb3setup:insert_card' %}/"+name, true); // true for asynchronous
+  xmlHttp.send(null);
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -56,7 +70,13 @@ system runs with version {{ version_current }}.</p>
   <table class="table">
 {% for field in cards_form %}
     <tr><th>{{ field.label_tag }}</th>
-    <td>{{ field }}{{ field.errors }}</td></tr>
+    <td>{{ field }}{{ field.errors }}</td>
+    <td>{% if field.name|first in 'n' %}
+      {% if not field.initial >= 0 %}
+      <a href="javascript:createCard('{{ field.initial }}')">Add card {{ field.initial }}</a>
+      {% endif %}
+      {% endif %}</td>
+    </tr>
 {% endfor %}
   </table>
   <div>
@@ -70,4 +90,5 @@ system runs with version {{ version_current }}.</p>
 </div>
 
 </div>
+
 {% endblock %}

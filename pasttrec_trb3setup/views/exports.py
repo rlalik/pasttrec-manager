@@ -134,6 +134,8 @@ def import_json_view(request, rev):
             l = build_list_of_names(d)
 
             for v in l:
+                if v['name'] not in request.POST:
+                  continue
                 v['sel'] = request.POST[v['name']]
                 if v['sel'] is not "":
                     obj, created = CardSettings.objects.update_or_create(

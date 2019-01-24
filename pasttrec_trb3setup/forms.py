@@ -26,13 +26,21 @@ class CardConfigInsertForm(forms.Form):
         if extra is not None:
             for v in extra:
                 parts = v['name'].split('_')
+                if v['val'] == None:
+                  continue
+
                 self.fields[v['name']] = \
                     forms.ModelChoiceField(
-                        queryset=(Card.objects.all()),
+                        queryset=(Card.objects.all().order_by('name')),
                         label="Id: {:s}  Cable: {:s}".format(parts[1], parts[2]),
                         required=False
                     )
-                #self.initial[v['name']] = v
+                n=str(v['val']['name'])
+                qs = Card.objects.filter(name=n)
+                if len(qs):
+                  self.fields[v['name']].initial = qs[0].pk
+                else:
+                  self.fields[v['name']].initial = n
 
     def clean(self):
         pass

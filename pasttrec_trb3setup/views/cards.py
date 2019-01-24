@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
 import json, pasttrec
@@ -25,7 +25,13 @@ class CardView(generic.DetailView):
 
         return context
 
-def insert_card_view(request):
+def insert_card_view(request, name = None):
+    if name is not None:
+        obj, created= Card.objects.update_or_create(
+          name=name
+        )
+        return redirect('pasttrec_trb3setup:card', obj.pk)
+
     if request.method == 'POST':
         form = CardInsertForm(request.POST)
 
@@ -48,7 +54,7 @@ def insert_card_view(request):
             }
         );
 
-def insert_cards_view(request):
+def insert_cards_view(request, names = None):
     if request.method == 'POST':
         form = CardInsertMultipleForm(request.POST)
 
