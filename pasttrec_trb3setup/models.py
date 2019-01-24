@@ -29,6 +29,9 @@ class Revision(models.Model):
     def __str__(self):
         return self.setup.name + ", rev: " + self.creation_on.strftime('%Y-%m-%d %H:%M')
 
+    def export_name(self):
+        return self.setup.name + "_rev_" + self.creation_on.strftime('%Y%m%d_%H%M')
+
 
 
 

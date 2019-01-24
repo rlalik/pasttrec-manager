@@ -30,9 +30,9 @@ def export_json(snapshot):
     d = []
 
     for k, v in snapshot.items():
-        c1 = dump_card(v['card1']) if 'card1' in v else None
-        c2 = dump_card(v['card2']) if 'card2' in v else None
-        c3 = dump_card(v['card3']) if 'card3' in v else None
+        c1 = dump_card(v['card1']) if v['card1'] else None
+        c2 = dump_card(v['card2']) if v['card2'] else None
+        c3 = dump_card(v['card3']) if v['card3'] else None
 
         t = pasttrec.TdcConnection(k, c1, c2, c3)
         d.append(t)

@@ -13,9 +13,10 @@ def export_json_view(request, pk):
     revision = Revision.objects.get(pk=pk)
     snapshot = create_revision_snapshot(revision)
     s = export_json(snapshot)
+    fn = revision.export_name();
 
     response = HttpResponse(json.dumps(pasttrec.dump(s), indent=2), content_type='application/json')
-    response['Content-Disposition'] = 'attachment; filename=export.json'
+    response['Content-Disposition'] = 'attachment; filename={:s}.json'.format(fn)
     return response
     #return JsonResponse(s)
     #return redirect('pasttrec_trb3setup:rev', pk=pk)
@@ -24,9 +25,10 @@ def export_shell_view(request, pk):
     revision = Revision.objects.get(pk=pk)
     snapshot = create_revision_snapshot(revision)
     s = export_json(snapshot)
+    fn = revision.export_name();
 
     response = HttpResponse('\n'.join(pasttrec.dump_script(s)), content_type='text/x-shellscript')
-    response['Content-Disposition'] = 'attachment; filename=export.sh'
+    response['Content-Disposition'] = 'attachment; filename={:s}.sh'.format(fn)
     return response
 
 def import_select_view(request, setup):
