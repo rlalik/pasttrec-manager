@@ -34,6 +34,12 @@
 <hr />
 {% if cards %}
 <!--     <nav class="nav flex-column"> -->
+    <h5>D</h5>
+    {% for card in cards %}
+        {% if card.name|first in 'D' %}
+        <a class="btn btn-outline-dark btn-sm" href="{% url 'pasttrec_trb3setup:card' card.id %}">{{ card.name }}</a>
+        {% endif %}
+    {% endfor %}
     <h5>C</h5>
     {% for card in cards %}
         {% if card.name|first in 'C' %}
