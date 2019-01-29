@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,6 +10,29 @@ from ..forms import CardInsertForm, CardInsertMultipleForm, CardSettingsForm, Ca
 from .views import create_revision_snapshot, find_last_card_revision, IndexView
 
 # Create your views here.
+
+def get_card_or_top_map(c):
+    if c is None:
+        return None
+
+    _c = c
+    while True:
+        if _c.map_to is None:
+            return _c
+        _c = _c.map_to
+
+def in_map_chain(card, object):
+    if card is None:
+        return False
+
+    _c = card
+    while True:
+        if _c == object:
+            return True
+
+        if _c.map_to is None:
+            return False
+        _c = _c.map_to
 
 class CardView(generic.DetailView):
     model = Card
@@ -94,7 +118,6 @@ def insert_cards_view(request, names = None):
 
 
 def add_settings_view(request, card_pk=None, rev_pk=None):
-    print(card_pk, rev_pk)
     if request.method == 'POST':
         form = CardSettingsForm(request.POST)
 
@@ -110,8 +133,8 @@ def add_settings_view(request, card_pk=None, rev_pk=None):
             'card' : card_pk,
             'revision' : rev_pk,
             })
+
         form.fields["map_to"].queryset = CardSettings.objects.filter(card=card)
-        print(card, CardSettings.objects.filter(card=card))
         return render(
             request,
             'pasttrec_trb3setup/card_settings_change.html',
@@ -163,16 +186,24 @@ def change_settings_view(request, pk):
 
     else:
         cs = CardSettings.objects.get(pk=pk)
+        all_cs = CardSettings.objects.exclude(pk=cs.pk).filter(card=cs.card)
+        qq = Q(pk=cs.pk)
+        for _cs in all_cs:
+            test = in_map_chain(_cs, cs)
+            if test:
+                qq = qq | Q(pk=_cs.pk)
+
         form = CardSettingsForm(instance=cs)
+        form.fields["map_to"].queryset = CardSettings.objects.filter(card=cs.card).exclude(qq)
         return render(
             request,
             'pasttrec_trb3setup/card_settings_change.html',
             context = {
                 'settings' : cs,
                 'form' : form,
-                'redirect_to' : reverse('pasttrec_trb3setup:change_settings', pk),
+                'redirect_to' : reverse('pasttrec_trb3setup:change_settings', args=[pk]),
             }
-        );
+        )
 
 def get_action_dict():
     return { 'before' : None, 'action' : None, 'after' : None }
@@ -193,7 +224,10 @@ def test_card(revision, card):
     else:
         a['before'] = card
         a['action'] = Action.UPDATE
-        a['after'] = card
+        if card.map_to:
+            a['after'] = 'NEW from map'
+        else:
+            a['after'] = card
 
     return a
 
@@ -203,7 +237,6 @@ def change_settings_mass_view(request, rev):
     revision = Revision.objects.get(pk=rev)
     snapshot = create_revision_snapshot(revision)
 
-    print(revision, snapshot)
     for k, v in snapshot.items():
         a = test_card(revision, v['card1'])
         if a is not None:
@@ -219,18 +252,43 @@ def change_settings_mass_view(request, rev):
         form = CardSettingsMassChangeForm(request.POST)
 
         if form.is_valid():
-            print(request.POST)
-
             threshold = request.POST['threshold']
+            tc1c = request.POST['tc1c']
+            tc1r = request.POST['tc1r']
+            tc2c = request.POST['tc2c']
+            tc2r = request.POST['tc2r']
+
             for a in actions:
                 c = a['before']
+
+                if c.map_to is not None:
+                    old_pk = c.pk
+                    c = get_card_or_top_map(c.map_to)
+                    c.pk = old_pk
+                    c.map_to = None
+
                 c.revision = revision
 
                 if threshold is not '':
                     c.threshold_0 = threshold
                     c.threshold_1 = threshold
 
-                print(c)
+                if tc1c is not '':
+                    c.tc1c_0 = tc1c
+                    c.tc1c_1 = tc1c
+
+                if tc1r is not '':
+                    c.tc1r_0 = tc1r
+                    c.tc1r_1 = tc1r
+
+                if tc2c is not '':
+                    c.tc2c_0 = tc2c
+                    c.tc2c_1 = tc2c
+
+                if tc2r is not '':
+                    c.tc2r_0 = tc2r
+                    c.tc2r_1 = tc2r
+
                 if a['action'] == Action.COPY:
                     c.pk = None
 

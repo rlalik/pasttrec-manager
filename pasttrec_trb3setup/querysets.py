@@ -40,7 +40,6 @@ def queryset_for_admin_card_field(field, request, **kwargs):
 
 def queryset_for_card_field(field, request, rev=None, tdc=None):
     resolved = resolve(request.path)
-    print(111)
     if rev is not None:
         q_r = Revision.objects.get(pk=rev)
         q_c = Card.objects.filter(

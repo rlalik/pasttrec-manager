@@ -35,7 +35,7 @@ def find_last_card_revision(card, rev):
     else:
         return None
 
-def create_revision_snapshot(revision):
+def create_revision_snapshot(revision, follow_maps = False):
     snapshot = {}
 
     result = Connection.objects.filter(
@@ -66,9 +66,9 @@ def create_revision_snapshot(revision):
 
         snapshot[ntdc]['r'] = r
         snapshot[ntdc]['tdc'] = tdc
-        snapshot[ntdc]['card1'] = get_card_or_top_map(c1)
-        snapshot[ntdc]['card2'] = get_card_or_top_map(c2)
-        snapshot[ntdc]['card3'] = get_card_or_top_map(c3)
+        snapshot[ntdc]['card1'] = c1 if not follow_maps else get_card_or_top_map(c1)
+        snapshot[ntdc]['card2'] = c2 if not follow_maps else get_card_or_top_map(c2)
+        snapshot[ntdc]['card3'] = c3 if not follow_maps else get_card_or_top_map(c3)
 
     return snapshot
 
@@ -311,7 +311,6 @@ def revision_add_view(request, setup_id = None):
         if form.is_valid():
             form.save()
 
-        print(request.POST)
         redir_to =  request.POST.get("redirect_to", None)
         if redir_to:
             return redirect(redir_to)

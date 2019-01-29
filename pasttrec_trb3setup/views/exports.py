@@ -11,7 +11,7 @@ from .views import create_revision_snapshot
 
 def export_json_view(request, pk):
     revision = Revision.objects.get(pk=pk)
-    snapshot = create_revision_snapshot(revision)
+    snapshot = create_revision_snapshot(revision, True)
     s = export_json(snapshot)
     fn = revision.export_name();
 
@@ -23,7 +23,7 @@ def export_json_view(request, pk):
 
 def export_shell_view(request, pk):
     revision = Revision.objects.get(pk=pk)
-    snapshot = create_revision_snapshot(revision)
+    snapshot = create_revision_snapshot(revision, True)
     s = export_json(snapshot)
     fn = revision.export_name();
 

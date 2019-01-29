@@ -65,6 +65,10 @@ class CardSettingsForm(forms.ModelForm):
 
 class CardSettingsMassChangeForm(forms.Form):
     threshold = forms.IntegerField(min_value = 0, max_value = 31, required = False)
+    tc1c = forms.IntegerField(min_value = 0, max_value = 3, required = False)
+    tc1r = forms.IntegerField(min_value = 0, max_value = 3, required = False)
+    tc2c = forms.IntegerField(min_value = 0, max_value = 3, required = False)
+    tc2r = forms.IntegerField(min_value = 0, max_value = 3, required = False)
 
 class ConnectionForm(forms.ModelForm):
     step = forms.IntegerField()

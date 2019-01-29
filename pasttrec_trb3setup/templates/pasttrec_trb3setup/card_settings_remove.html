@@ -1,4 +1,5 @@
 {% extends 'pasttrec_trb3setup/base.html' %}
+{% load filters %}
 
 {% block content %}
 <div class="container">
@@ -21,11 +22,7 @@
     <div class="card">
     <div class="card-header"><a href="{% url 'pasttrec_trb3setup:rev' card_revision.revision.pk %}">{{ card_revision.revision }}</a></div>
     <div class="card-body">
-    {% if card_revision.map_to %}
-    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card_revision data=card_revision.map_to %}
-    {% else %}
-    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card_revision data=card_revision %}
-    {% endif %}
+    {% include 'pasttrec_trb3setup/_card_detail_table.html' with card=card_revision data=card_revision|top_map %}
     </div></div>
 
     <div class="alert alert-danger" role="alert">
