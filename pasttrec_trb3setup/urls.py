@@ -11,6 +11,7 @@ urlpatterns = [
     path('rev/add', views.revision_add_view, name='rev_add'),
     path('rev/add/<int:setup_id>', views.revision_add_view, name='rev_add'),
 
+    path('cards', cards.CardsView.as_view(), name='cards'),
     path('card/<int:pk>', cards.CardView.as_view(), name='card'),
     path('card/insert/<str:name>', cards.insert_card_view, name='insert_card'),
     path('card/insert', cards.insert_card_view, name='insert_card'),

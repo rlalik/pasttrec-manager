@@ -6,7 +6,7 @@ import json, pasttrec
 
 from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
 from ..forms import CardInsertForm, CardInsertMultipleForm, CardSettingsForm, CardSettingsMassChangeForm, RevisionForm
-from .views import create_revision_snapshot, find_last_card_revision
+from .views import create_revision_snapshot, find_last_card_revision, IndexView
 
 # Create your views here.
 
@@ -23,6 +23,18 @@ class CardView(generic.DetailView):
 
         context['revisions'] = cards
 
+        return context
+
+class CardsView(IndexView):
+    template_name = 'pasttrec_trb3setup/cards.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cards = Card.objects.order_by('name')
+        cards_and_settings = []
+        for c in cards:
+            cards_and_settings.append({ "card" : c, "num_settings" : CardSettings.objects.filter(card=c.pk).count() } )
+        context['cards'] = cards_and_settings
         return context
 
 def insert_card_view(request, name = None):
@@ -82,6 +94,7 @@ def insert_cards_view(request, names = None):
 
 
 def add_settings_view(request, card_pk=None, rev_pk=None):
+    print(card_pk, rev_pk)
     if request.method == 'POST':
         form = CardSettingsForm(request.POST)
 
@@ -97,6 +110,8 @@ def add_settings_view(request, card_pk=None, rev_pk=None):
             'card' : card_pk,
             'revision' : rev_pk,
             })
+        form.fields["map_to"].queryset = CardSettings.objects.filter(card=card)
+        print(card, CardSettings.objects.filter(card=card))
         return render(
             request,
             'pasttrec_trb3setup/card_settings_change.html',
