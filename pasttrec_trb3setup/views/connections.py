@@ -70,6 +70,8 @@ def insert_connection_view(request, rev=None, tdc=None):
                 return redirect('pasttrec_trb3setup:change_connection', result[0].pk)
 
             form = ConnectionForm(instance=result[0], initial = { 'step' : 0, 'revision' : rev})
+        else:
+            form = ConnectionForm(initial = { 'step' : 0, 'revision' : rev})
 
         form.fields['card1'].queryset = queryset_for_card_field('', request, rev, tdc)
         form.fields['card2'].queryset = queryset_for_card_field('', request, rev, tdc)

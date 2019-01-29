@@ -8,6 +8,16 @@ from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
 from ..forms import RevisionForm
 # Create your views here.
 
+def get_card_or_top_map(c):
+    if c is None:
+        return None
+
+    _c = c
+    while True:
+        if _c.map_to is None:
+            return _c
+        _c = _c.map_to
+
 def find_last_card_revision(card, rev):
     if card is None:
         return None
@@ -56,9 +66,9 @@ def create_revision_snapshot(revision):
 
         snapshot[ntdc]['r'] = r
         snapshot[ntdc]['tdc'] = tdc
-        snapshot[ntdc]['card1'] = c1 if c1 is None or c1.map_to is None else c1.map_to
-        snapshot[ntdc]['card2'] = c2 if c2 is None or c2.map_to is None else c2.map_to
-        snapshot[ntdc]['card3'] = c3 if c3 is None or c3.map_to is None else c3.map_to
+        snapshot[ntdc]['card1'] = get_card_or_top_map(c1)
+        snapshot[ntdc]['card2'] = get_card_or_top_map(c2)
+        snapshot[ntdc]['card3'] = get_card_or_top_map(c3)
 
     return snapshot
 
