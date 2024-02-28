@@ -1,0 +1,41 @@
+{% extends 'django_pasttrec_manager/base.html' %}
+{% load i18n filters %}
+
+{% block head_extras %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/widgets.css" />
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item active" >{{ setup.name }}</li>
+  </ol>
+</nav>
+
+<h4>Create new revision</h4>
+
+<form action="{% url 'django_pasttrec_manager:rev_add' setup.pk %}" method="post">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  {% include 'django_pasttrec_manager/_revision_create.html' with form=form %}
+
+</form>
+
+</div>
+</div>
+
+</div>
+{% endblock %}

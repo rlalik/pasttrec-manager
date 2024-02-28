@@ -1,0 +1,22 @@
+{% load filters %}
+<details>
+  <summary>
+  {{ card.card.name }}
+  </summary>
+  <div style="font-size: 70%;">
+
+{% include 'django_pasttrec_manager/_card_detail_table.html' with card=card data=card|top_map%}
+
+  </div>
+</details>
+
+<!--<p>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#card_{{ card.card.name }}" aria-expanded="false" aria-controls="card_{{ card.card.name }}">
+    Button with data-target
+  </button>
+</p>
+<div class="collapse" id="card_{{ card.card.name }}">
+  <div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>-->

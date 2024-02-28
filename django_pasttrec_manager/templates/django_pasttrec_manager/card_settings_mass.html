@@ -1,0 +1,68 @@
+{% extends 'django_pasttrec_manager/base.html' %}
+{% load i18n filters %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'passtrec_trb3setup:setup' rev.setup.id %}">{{ rev.setup.name }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Mass update</li>
+  </ol>
+</nav>
+
+{% if form %}
+<h3>Add settings</h3>
+<div class="alert alert-warning" role="alert">
+  This action will perform massive change of all cards. Since all cards have
+  individual settings, it is possible to simultanously change only parameters
+  listed below. If you need to change other parametrs, first save this form and
+  then perform further actions. Is fields are left empty, the parameter will
+  not be updated in the new release.
+</div>
+<form action="{% url 'django_pasttrec_manager:change_settings_mass' rev.pk %}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div>
+    <input class="btn" type="submit" value="{% trans 'Save' %}" />
+    <input class="btn btn-danger" type="reset" value="{% trans 'Clear' %}" />
+  </div>
+</form>
+{% endif %}
+
+</div>
+</div>
+
+{% if actions %}
+<br />
+<h3>Actions</h3>
+<p>List of actions which will be performed.</p>
+<table class="table">
+<thead>
+<tr>
+<th scope="col">#</th>
+<th scope="col">Before</th>
+<th scope="col">Action</th>
+<th scope="col">After</th>
+</tr>
+</thead>
+<tbody>
+{% for a in actions %}
+<tr>
+<th scope="row">
+{{ a.pk }}
+</th>
+<td>{{ a.before }}</td><td>{{ a.action }}</td><td>{{ a.after }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endif %}
+
+</div>
+{% endblock %}

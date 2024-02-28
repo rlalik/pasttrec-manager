@@ -1,0 +1,47 @@
+{% extends 'django_pasttrec_manager/base.html' %}
+{% load filters %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ object.name }}</li>
+  </ol>
+</nav>
+
+<div class="alert alert-danger" role="alert">
+  You are about to remove the card settings. Be careful, this operation is irreversible.
+</div>
+
+{% if card_revision %}
+    <div class="card">
+    <div class="card-header"><a href="{% url 'django_pasttrec_manager:rev' card_revision.revision.pk %}">{{ card_revision.revision }}</a></div>
+    <div class="card-body">
+    {% include 'django_pasttrec_manager/_card_detail_table.html' with card=card_revision data=card_revision|top_map %}
+    </div></div>
+
+    <div class="alert alert-danger" role="alert">
+    You are about to remove the card settings. Be careful, this operation is irreversible.
+    </div>
+
+    <form action="{% url 'django_pasttrec_manager:delete_card_settings' card_revision.pk %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+      <input class="btn btn-danger" type="submit" value="Delete" name="btn_delete" />
+      <input class="btn" type="button" value="Cancel" onclick="javascript:history.back()" />
+      </div>
+    </form>
+{% else %}
+    <p>No Card Settings are available.</p>
+{% endif %}
+
+</div>
+</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends 'django_pasttrec_manager/base.html' %}
+
+{% block head_extras %}
+<script>
+function json_download() {
+    window.location.href = "{% url 'django_pasttrec_manager:export_json' revision.pk %}"
+}
+function shell_download() {
+    window.location.href = "{% url 'django_pasttrec_manager:export_shell' revision.pk %}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item" >Setup</li>
+    <li class="breadcrumb-item"><a href="{% url 'passtrec_trb3setup:setup' object.setup.id %}">{{ setup.name }}</a></li>
+    <li class="breadcrumb-item" >Connection revision</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ object.creation_on }}</li>
+  </ol>
+</nav>
+
+<h5>Change revision</h5>
+
+{% if revlist %}
+  <nav><ul class="pagination">
+  {% for cr in revlist %}
+    {%if cr.active %}
+    <li class="page-item active">
+    {% else %}
+    <li class="page-item">
+    {% endif %}
+    <a class="page-link" href="{% url 'django_pasttrec_manager:rev' cr.pk %}">
+      <small>{{ cr.name }}</small>
+    </a>
+    </li>
+  {% endfor %}
+  </li></nav>
+{% endif %}
+
+<h5>Tools</h5>
+  <nav class="nav">
+    <a class="nav-link" href="{% url 'admin:django_pasttrec_manager_revision_change' revision.pk %}">
+      <i class="fas fa-edit"></i> Edit revision
+    </a>
+    <a class="nav-link" href="#" onclick="json_download()"><i class="fas fa-file-export"></i> Export JSON</a>
+    <a class="nav-link" href="#" onclick="shell_download()"><i class="fas fa-file-export"></i> Export SHELL</a>
+<!--     <a class="nav-link" href="">Export trbcmd configuration</a> -->
+    <a class="nav-link" href="{% url 'django_pasttrec_manager:import_select_revision' object.setup.id %}">
+      <i class="fas fa-file-import"></i> Import settings
+    </a>
+  </nav>
+
+<br />
+
+<h6>Legend</h6>
+<div class="row">
+<div class="col-4">
+<a href="#"><i class="fas fa-edit"></i> Edit</a>  - edit connection in current revision
+</div>
+<div class="col-4">
+<a href="#" class="text-danger"><i class="fas fa-edit"></i> Edit</a> - edit connection in another revision
+</div>
+<div class="col-4">
+<a href="#"><i class="fas fa-plus-square"></i> Add</a>  - add connection in current revision
+</div>
+</div>
+
+<br />
+
+<h5>Configuration</h5>
+
+{% if snapshot %}
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">TRBNETid</th>
+      <th scope="col" style="width: 28%">Cable 1</th>
+      <th scope="col" style="width: 28%">Cable 2</th>
+      <th scope="col" style="width: 28%">Cable 3</th>
+      <th scope="col" style="width: 10%">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for s in snapshot %}
+  <tr>
+    <th scope="row">{{ s.name }} </th>
+    <!--<td><a href="">{% if s.card1.map_to %}{{ s.card1.map_to }}{% else %}{{ s.card1.card.name }} {{ s.card1.revision }}{% endif %}</a></td>-->
+    <td>{% if s.card1 %}{% include 'django_pasttrec_manager/_card_detail.html' with card=s.card1 %}{% endif %}</td>
+    <td>{% if s.card2 %}{% include 'django_pasttrec_manager/_card_detail.html' with card=s.card2 %}{% endif %}</td>
+    <td>{% if s.card3 %}{% include 'django_pasttrec_manager/_card_detail.html' with card=s.card3 %}{% endif %}</td>
+    <td>
+      {% if s.r.revision.pk == revision.pk %}
+      <a href="{% url 'django_pasttrec_manager:change_connection' s.r.pk %}">
+      <i class="fas fa-edit"></i> Edit</a>
+      <br />
+      <a href="{% url 'django_pasttrec_manager:delete_connection' s.r.pk %}">
+      <i class="fas fa-trash"></i> Delete</a>
+      {% else %}
+      <a href="{% url 'django_pasttrec_manager:change_connection' s.r.pk %}" class="text-danger">
+      <i class="fas fa-edit"></i> Edit</a>
+      <br />
+      <a href="{% url 'django_pasttrec_manager:add_connection' s.r.pk s.tdc.pk %}">
+      <i class="fas fa-plus-square"></i> Add</a>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+{% else %}
+    <p>No TDCs are available.</p>
+{% endif %}
+
+</div>
+</div>
+
+</div>
+{% endblock %}

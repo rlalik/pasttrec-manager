@@ -1,0 +1,8 @@
+build
+db.sqlite
+dist
+django_pasttrec_manager.egg-info
+django-pasttrec-manager.kdev4
+.kdev4
+local
+__pycache__
