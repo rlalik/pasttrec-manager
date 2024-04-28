@@ -1,0 +1,72 @@
+{% load filters %}
+
+<div class="card">
+  {% if form.non_field_errors %}
+  <div class="card-header">
+    {{ form.non_field_errors }}
+  </div>
+  {% endif %}
+  <div class="card-body">
+    <div class="hstack gap-3">
+      <div class="col-sm">
+        {{ form.card_form }}
+        {{ form.config_form }}
+      </div>
+      <div class="vr"></div>
+      <div class="col-sm-6">
+        <span class="text-danger">New baseline settings</span>
+        <div class="row">
+          <div class="col"><span class="badge text-bg-primary">ASIC 0</span></div>
+          {{ form.asic0_form }}
+          <div class="col-1"><span class="badge text-bg-success">NEW</span></div>
+        </div>
+
+        <div class="row">
+          <div class="col"><span class="badge text-bg-primary">ASIC 1</span></div>
+          {{ form.asic1_form }}
+          <div class="col-1"><span class="badge text-bg-success">NEW</span></div>
+        </div>
+
+        {% if form.asic0_old_form or form.asic1_old_form %}
+        <span class="text-primary">Current baseline settings</span>
+        <hr>
+        {% endif %}
+        {% if form.asic0_old_form %}
+        <div class="row">
+          <div class="col"><span class="badge text-bg-primary">ASIC 0</span></div>
+          {{ form.asic0_old_form }}
+          <div class="col-1"><span class="badge text-bg-danger">OLD</span></div>
+        </div>
+        {% endif %}
+
+        {% if form.asic1_old_form %}
+        <div class="row">
+          <div class="col"><span class="badge text-bg-primary">ASIC 0</span></div>
+          {{ form.asic1_old_form }}
+          <div class="col-1"><span class="badge text-bg-danger">OLD</span></div>
+        </div>
+        {% endif %}
+        
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-danger">
+    <div class="row justify-content-end">
+    <div class="col-10">
+    <ul>
+    {% for action in form.actions %}
+    <li>{{ action }}</li>
+    {% endfor %}
+    </ul>
+    </div>
+    <div class="col-2">
+    <div class="form-check">
+      {{ form.confirm_actions|add_class:"form-check-input" }}
+      <label class="form-check-label" for="{{ form.confirm_actions.id_for_label }}">
+      {{ form.confirm_actions.label }}{{ form.confirm_actions.errors }}
+      </label>
+    </div>
+    </div>
+    </div>
+  </div>
+</div>

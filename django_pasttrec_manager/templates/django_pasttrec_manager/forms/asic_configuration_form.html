@@ -1,0 +1,29 @@
+{% load filters %}
+  <table class="table table-sm">
+  <tbody class="text-left align-middle">
+    <tr>
+      <td class="cell_detail" >Name</td>
+      <td class="" >{{ form.name.errors }}{{ form.name|add_class:"form-control form-control-sm" }}</td>
+      <td class="cell_detail">BGi</td>
+      <td class="text-center">{{ form.bg_int.errors }}{{ form.bg_int|add_class:"form-check-input form-check-input-sm" }}</td>
+      <td class="cell_detail">K</td>
+      <td class="text-center">{{ form.gain.errors }}{{ form.gain|add_class:"form-control form-control-sm"|add_range:"0 3" }}</td>
+      <td class="cell_detail">Tp</td>
+      <td class="text-center">{{ form.peaking.errors }}{{ form.peaking|add_class:"form-control form-control-sm"|add_range:"0 3" }}</td>
+      <td class="cell_detail" >Thr.</td>
+      <td class="text-center" >{{ form.threshold.errors }}{{ form.threshold|add_class:"form-control form-control-sm"|add_range:"0 127" }}</td>
+    </tr>
+    <tr>
+      <td class="cell_detail">Notes</td>
+      <td class="">{{ form.notes.errors }}{{ form.notes|add_class:"form-control form-control-sm" }}</td>
+      <td class="cell_detail">TC1C</td>
+      <td class="text-center">{{ form.tc1c.errors }}{{ form.tc1c|add_class:"form-control form-control-sm"|add_range:"0 7" }}</td>
+      <td class="cell_detail">TC1R</td>
+      <td class="text-center">{{ form.tc1r.errors }}{{ form.tc1r|add_class:"form-control form-control-sm"|add_range:"0 7" }}</td>
+      <td class="cell_detail">TC2C</td>
+      <td class="text-center">{{ form.tc2c.errors }}{{ form.tc2c|add_class:"form-control form-control-sm"|add_range:"0 7" }}</td>
+      <td class="cell_detail">TC2R</td>
+      <td class="text-center">{{ form.tc2r.errors }}{{ form.tc2r|add_class:"form-control form-control-sm"|add_range:"0 7" }}</td>
+    </tr>
+  </tbody>
+  </table>

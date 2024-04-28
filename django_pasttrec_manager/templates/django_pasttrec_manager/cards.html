@@ -38,6 +38,7 @@
     <thead>
     <tr>
       <th scope="col">Name</th>
+      <th scope="col">FEB ID</th>
       <th scope="col">Number of revisions</th>
       <th scope="col">See card</th>
     </tr>
@@ -46,6 +47,7 @@
     {% for card in cards %}
     <tr>
       <th scope="row">{{ card.card.name }}</th>
+      <td><strong>{{ card.card.febid }}</strong></td>
       <td>
       {% if card.num_settings > 0 %}
       <span class="badge badge-success" style="width: {{ card.num_settings|add:1 }}em;">{{ card.num_settings }}</span>

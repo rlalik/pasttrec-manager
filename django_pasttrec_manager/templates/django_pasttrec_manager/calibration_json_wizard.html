@@ -1,0 +1,59 @@
+{% extends 'django_pasttrec_manager/base.html' %}
+{% load i18n filters mathfilters %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+
+<div class="row">
+<div class="col">
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item active" >{{ setup.name }}</li>
+  </ol>
+</nav>
+
+</div>
+</div>
+
+<!-- WIZARD -->
+
+<div class="progress" role="progressbar" aria-valuenow="{{ wizard.steps.step1 }}" aria-valuemin="0" aria-valuemax="{{ wizard.steps.count }}" style="height: 20px">
+  <div class="progress-bar bg-warning text-dark" style="width: {{ 100.0|div:wizard.steps.count|mul:wizard.steps.step1 }}%;">Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</div>
+</div>
+
+<hr>
+<form action="{% url 'django_pasttrec_manager:import_calibrations_wizard' %}" method="post">
+  {% csrf_token %}
+
+  {{ wizard.management_form }}
+  {{ wizard.management_formset }}
+  {% if wizard.form.forms %}
+    {{ wizard.form.management_form }}
+    {% for form in wizard.form.forms %}
+      {{ form }}
+      <hr>
+    {% endfor %}
+  {% else %}
+    {{ wizard.form }}
+  {% endif %}
+
+  <div class="align-right">
+  {% if wizard.steps.prev %}
+  <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}" class="btn btn-danger" formnovalidate>{% trans "first step" %}</button>
+  <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}" class="btn btn-warning" formnovalidate>{% trans "prev step" %}</button>
+  {% endif %}
+  <button type="submit" value="{% trans "submit" %}" class="btn btn-success" formnovalidate>{% trans "next step" %}</button>
+  </div>
+</form>
+<!-- WIZARD -->
+
+
+</div>
+{% endblock %}

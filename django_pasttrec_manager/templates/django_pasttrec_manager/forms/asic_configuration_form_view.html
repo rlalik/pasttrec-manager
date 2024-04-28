@@ -1,0 +1,43 @@
+{% load filters %}
+
+<div class="row">
+  <div class="col-2 text-end">SETUP</div>
+  <div class="col-6"><span class="badge text-bg-primary w-100">{{ form.name.value }}</span></div>
+  <div class="col-2">
+  {% if form.notes.value %}
+  <span class="badge text-bg-primary w-100"
+      data-bs-toggle="tooltip" data-bs-placement="top"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="{{ form.notes.value }}">
+      Notes
+  </span>
+  {% endif %}
+  </div>
+  <div class="col-2">
+  {% if form.insert_new %}
+  <span class="badge text-bg-success w-100">Insert</span> 
+  {% endif %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-2 text-end">BGi</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.bg_int.value|yesno:"1,0" }}</span></div>
+  <div class="col text-end">K</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.gain.value }}</span></div>
+  <div class="col text-end">Tp</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.peaking.value }}</span></div>
+  <div class="col text-end">Thr.</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.threshold.value }}</span></div>
+</div>
+
+<div class="row">
+  <div class="col-2 text-end">TC1C</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.tc1c.value }}</span></div>
+  <div class="col text-end">TC1R</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.tc1r.value }}</span></div>
+  <div class="col text-end">TC2C</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.tc2c.value }}</span></div>
+  <div class="col text-end">TC2R</div>
+  <div class="col-1"><span class="badge text-bg-secondary w-100">{{ form.tc2r.value }}</span></div>
+</div>

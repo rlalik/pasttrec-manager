@@ -1,11 +1,10 @@
-from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
 import json  # , pasttrec
 from enum import Enum
 
-from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
-from ..forms import RevisionForm
+from ..models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration
+# from ..forms import RevisionForm
 
 # Create your views here.
 
@@ -236,85 +235,87 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         return None
-        return Setup.objects.order_by("name")
+        return AsicConfiguration.objects.order_by("name")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         setup_id = self.kwargs.get("setup_id", None)
-        context["setups"] = Setup.objects.order_by("name")
+        context["configurations"] = AsicConfiguration.objects.order_by("name")
         context["cards"] = Card.objects.order_by("name")
         return context
 
 
-class SetupView(generic.ListView):
-    model = Setup
-    template_name = "django_pasttrec_manager/setup.html"
+class AsicConfigurationView(generic.ListView):
+    model = AsicConfiguration
+    template_name = "django_pasttrec_manager/configuration.html"
 
     def get_queryset(self, **kwargs):
         setup_id = self.kwargs.get("setup_id", None)
-        return Revision.objects.filter(setup__pk=setup_id).order_by("creation_on")
+        return CardCalibration.objects.filter(card_id=setup_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         setup_id = self.kwargs.get("setup_id", None)
-        setup = Setup.objects.get(pk=setup_id)
-        context["setup"] = setup
-
-        map = create_revisions_map(setup)
-        context["map"] = map
-        context["State"] = State
+        configuration = AsicConfiguration.objects.get(pk=setup_id)
+        context["configuration"] = configuration
+        context["cardcalibrations"] = CardCalibration.objects.filter(config=configuration)
+        # map = create_revisions_map(setup)
+        # context["map"] = map
+        # context["State"] = State
 
         return context
 
 
 class RevisionView(generic.DetailView):
-    model = Revision
-    template_name = "django_pasttrec_manager/connection_revision_details.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        rev_id = self.kwargs.get("pk", None)
-        revision = Revision.objects.get(pk=rev_id)
-
-        context["setup"] = revision.setup
-
-        revs = []
-        current = None
-        cres = Revision.objects.filter(setup__pk=revision.setup.pk).order_by("creation_on")
-        for cr in cres:
-            is_current = True if cr.pk is rev_id else False
-            revs.append({"name": cr.creation_on, "pk": cr.pk, "active": is_current})
-
-            if is_current:
-                current = cr
-
-        context["revlist"] = revs
-
-        snapshot = create_revision_snapshot(revision)
-
-        s = []
-        for k, v in snapshot.items():
-            s.append(v)
-
-        context["snapshot"] = s
-
-        return context
+    # model = Revision
+    # template_name = "django_pasttrec_manager/connection_revision_details.html"
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #
+    #     rev_id = self.kwargs.get("pk", None)
+    #     revision = Revision.objects.get(pk=rev_id)
+    #
+    #     context["setup"] = revision.setup
+    #
+    #     revs = []
+    #     current = None
+    #     cres = Revision.objects.filter(setup__pk=revision.setup.pk).order_by("creation_on")
+    #     for cr in cres:
+    #         is_current = True if cr.pk is rev_id else False
+    #         revs.append({"name": cr.creation_on, "pk": cr.pk, "active": is_current})
+    #
+    #         if is_current:
+    #             current = cr
+    #
+    #     context["revlist"] = revs
+    #
+    #     snapshot = create_revision_snapshot(revision)
+    #
+    #     s = []
+    #     for k, v in snapshot.items():
+    #         s.append(v)
+    #
+    #     context["snapshot"] = s
+    #
+    #     return context
+    pass
 
 
 def revision_add_view(request, setup_id=None):
-    if request.method == "POST":
-        form = RevisionForm(request.POST)
-        if form.is_valid():
-            form.save()
-
-        redir_to = request.POST.get("redirect_to", None)
-        if redir_to:
-            return redirect(redir_to)
-
-        return redirect("django_pasttrec_manager:setup", form.cleaned_data["setup"].pk)
-
-    else:
-        _setup = Setup.objects.get(pk=setup_id)
-        _form = RevisionForm(initial={"setup": setup_id})
-        return render(request, "django_pasttrec_manager/revision_insert.html", context={"setup": _setup, "form": _form})
+    # if request.method == "POST":
+    #     form = RevisionForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #
+    #     redir_to = request.POST.get("redirect_to", None)
+    #     if redir_to:
+    #         return redirect(redir_to)
+    #
+    #     return redirect("django_pasttrec_manager:setup", form.cleaned_data["setup"].pk)
+    #
+    # else:
+    #     _setup = Setup.objects.get(pk=setup_id)
+    #     _form = RevisionForm(initial={"setup": setup_id})
+    #     return render(request, "django_pasttrec_manager/revision_insert.html", context={"setup": _setup, "form": _form})
+    pass

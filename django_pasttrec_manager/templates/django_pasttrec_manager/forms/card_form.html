@@ -1,0 +1,25 @@
+{% load filters %}
+{{ form.non_field_errors }}
+<div class="row">
+<div class="col-6">
+  <div class="form-group">
+    <label class="">{{ form.febid.label_tag }}</label>
+    <div class="col-sm">{{ form.febid|add_class:"form-control form-control-sm" }}{{ form.febid.errors }}</div>
+  </div>
+
+  <div class="form-group">
+    <label class="">{{ form.name.label_tag }}</label>
+    <div class="col-sm">{{ form.name|add_class:"form-control form-control-sm" }}{{ form.name.errors }}</div>
+  </div>
+
+</div>
+
+<div class="col-6">
+
+  <div class="form-group">
+    <label class="">{{ form.notes.label_tag }}</label>
+    <div class="col-sm">{{ form.notes|add_class:"form-control form-control-sm" }}{{ form.notes.errors }}</div>
+  </div>
+
+</div>
+</div>

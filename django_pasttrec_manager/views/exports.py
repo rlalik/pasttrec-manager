@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.views import generic
 import json  # , pasttrec
 
-from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
-from ..forms import CardConfigInsertForm, JsonUploadFileForm, RevisionForm
+from ..models import AsicConfiguration, AsicBaselineSettings, Card
+from ..forms import CardConfigInsertForm, JsonUploadFileForm
 from ..exports import export_json
 from .views import create_revision_snapshot
 

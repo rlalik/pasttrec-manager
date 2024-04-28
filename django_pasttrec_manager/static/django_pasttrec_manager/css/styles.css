@@ -45,3 +45,8 @@
   padding: 0 !important;
   margin: 0 !important;
 }
+
+.custom-tooltip {
+  --bs-tooltip-bg: var(--bd-violet-bg);
+  --bs-tooltip-color: var(--bs-white);
+}

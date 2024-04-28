@@ -1,13 +1,20 @@
+import json
+
 from django.db.models import Q
 from django.urls import reverse
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import generic
-import json  # , pasttrec
 
-from ..models import Card, CardSettings, Connection, Revision, Setup, TDC
-from ..forms import CardInsertForm, CardInsertMultipleForm, CardSettingsForm, CardSettingsMassChangeForm, RevisionForm
+from ..models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration
+from ..forms import CardForm
+# , CardInsertMultipleForm, AsicConfigSettingsForm, AsicBaselineSettingsForm
+# , CardSettingsMassChangeForm, RevisionForm
+from ..forms import AsicConfigurationForm, AsicBaselineSettingsForm
+from ..forms import JsonUploadFileForm
 from .views import create_revision_snapshot, find_last_card_revision, IndexView
+
+from pasttrec.hardware import AsicRegistersValue
 
 # Create your views here.
 

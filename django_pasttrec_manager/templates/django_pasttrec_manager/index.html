@@ -14,14 +14,41 @@
 
 </div></div>
 
+{% if messages %}
+<h3>Messages</h3>
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 <div class="row">
-<div class="col">
-<h4>Select setup</h4>
+<h5>Tools</h5>
+  <nav class="nav">
+    <a class="nav-link" href="{% url 'django_pasttrec_manager:import_calibrations_wizard' %}">
+      <i class="fas fa-plus-square"></i> Import card
+    </a>
+    <a class="nav-link" href="{% url 'django_pasttrec_manager:insert_card' %}">
+      <i class="fas fa-plus-square"></i> Insert card
+    </a>
+    <a class="nav-link" href="{% url 'django_pasttrec_manager:insert_cards' %}">
+      <i class="fas fa-plus-square"></i> Insert multiple cards
+    </a>
+    <a class="nav-link" href="{% url 'django_pasttrec_manager:cards' %}">
+      <i class="fas fa-info"></i> Show detailed view
+    </a>
+  </nav>
+</div>
+<hr>
+<div class="row">
+<div class="col-4">
+<h4>Select configuration</h4>
 <hr />
-{% if setups %}
+{% if configurations %}
     <nav class="nav flex-column">
-    {% for setup in setups %}
-        <a class="nav-link" href="{% url 'django_pasttrec_manager:setup' setup.id %}">{{ setup.name }}</a>
+    {% for config in configurations %}
+        <a class="nav-link" href="{% url 'django_pasttrec_manager:configuration' config.id %}">{{ config.name }}</a>
     {% endfor %}
     </nav>
 {% else %}
@@ -29,7 +56,7 @@
 {% endif %}
 
 </div>
-<div class="col">
+<div class="col-8">
 <h4>Select card</h4>
 <hr />
 {% if cards %}
@@ -67,18 +94,7 @@
 
 <br /><br />
 
-<h5>Tools</h5>
-  <nav class="nav">
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:insert_card' %}">
-      <i class="fas fa-plus-square"></i> Insert card
-    </a>
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:insert_cards' %}">
-      <i class="fas fa-plus-square"></i> Insert multiple cards
-    </a>
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:cards' %}">
-      <i class="fas fa-info"></i> Show detailed view
-    </a>
-  </nav>
+
 </div>
 
 </div>
