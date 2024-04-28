@@ -250,18 +250,16 @@ class AsicConfigurationView(generic.ListView):
     template_name = "django_pasttrec_manager/configuration.html"
 
     def get_queryset(self, **kwargs):
-        setup_id = self.kwargs.get("setup_id", None)
-        return CardCalibration.objects.filter(card_id=setup_id)
+        config_id = self.kwargs.get("config_id", None)
+        return CardCalibration.objects.filter(config__id=config_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        setup_id = self.kwargs.get("setup_id", None)
-        configuration = AsicConfiguration.objects.get(pk=setup_id)
+        config_id = self.kwargs.get("config_id", None)
+        configuration = AsicConfiguration.objects.get(pk=config_id)
+
         context["configuration"] = configuration
-        context["cardcalibrations"] = CardCalibration.objects.filter(config=configuration)
-        # map = create_revisions_map(setup)
-        # context["map"] = map
-        # context["State"] = State
+        context["calibrations"] = CardCalibration.objects.filter(config=configuration)
 
         return context
 
