@@ -1,9 +1,8 @@
 from django.db import models
-
-# from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django import forms
+
 import re
 
 HEXA_STR = "^(0[xX])?([A-Fa-f0-9]{1,16})$"

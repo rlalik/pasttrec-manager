@@ -4,3 +4,4 @@ django-formtools
 django-mathfilters
 python-memcached
 django-bootstrap5
+django-bootstrap-icons

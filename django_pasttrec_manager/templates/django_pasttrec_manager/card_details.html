@@ -6,7 +6,6 @@
 
 <div class="row">
 <div class="col">
-
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
@@ -14,12 +13,8 @@
     <li class="breadcrumb-item active" aria-current="page">{{ object.name }}</li>
   </ol>
 </nav>
-
-<h3></h4>
-{% if object.info %}
-<p>{{ object.info }}</p>
-{% endif %}
-<hr />
+</div>
+</div>
 
 <div class="card border-dark mb-3">
   <div class="card-header">Card details</div>
@@ -31,7 +26,7 @@
 {% if calibrations %}
 {% for c in calibrations %}
 <div class="card border-dark mb-3">
-  <div class="card-header">Calibration: <a href="{% url 'django_pasttrec_manager:calibration' c.pk %}">{{ c }}</a></div>
+  <div class="card-header">Calibration details for <a href="{% url 'django_pasttrec_manager:configuration' c.config.pk %}">{{ c.config.name }}</a> configuration</div>
 
   <div class="card-body text-dark">
   {% include 'django_pasttrec_manager/widgets/asic_configuration_widget.html' with data=c.config %}

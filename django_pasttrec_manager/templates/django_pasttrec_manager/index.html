@@ -1,18 +1,19 @@
 {% extends 'django_pasttrec_manager/base.html' %}
 
+{% load bootstrap_icons %}
+
 {% block content %}
 <div class="container">
 
 <div class="row">
 <div class="col">
-
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item active" aria-current="page">Home</li>
   </ol>
 </nav>
-
-</div></div>
+</div>
+</div>
 
 {% if messages %}
 <h3>Messages</h3>
@@ -27,22 +28,16 @@
 <h5>Tools</h5>
   <nav class="nav">
     <a class="nav-link" href="{% url 'django_pasttrec_manager:import_calibrations_wizard' %}">
-      <i class="fas fa-plus-square"></i> Import card
-    </a>
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:insert_card' %}">
-      <i class="fas fa-plus-square"></i> Insert card
-    </a>
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:insert_cards' %}">
-      <i class="fas fa-plus-square"></i> Insert multiple cards
-    </a>
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:cards' %}">
-      <i class="fas fa-info"></i> Show detailed view
+      {% bs_icon 'file-arrow-down' %} Import calibrations from file
     </a>
   </nav>
 </div>
+
 <hr>
+
 <div class="row">
 <div class="col-4">
+
 <h4>Select configuration</h4>
 <hr />
 {% if configurations %}
@@ -54,49 +49,19 @@
 {% else %}
     <p>No setups are available.</p>
 {% endif %}
-
 </div>
+
 <div class="col-8">
 <h4>Select card</h4>
 <hr />
 {% if cards %}
-    {% for card in cards %}
-        <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' card.id %}">{{ card.name }}</a>
-    {% endfor %}
-<!--     <nav class="nav flex-column"> -->
-<!--    {% for card in cards %}
-        {% if card.name|first in 'D' %}
-        <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' card.id %}">{{ card.name }}</a>
-        {% endif %}
-    {% endfor %}
-    <h5>C</h5>
-    {% for card in cards %}
-        {% if card.name|first in 'C' %}
-        <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' card.id %}">{{ card.name }}</a>
-        {% endif %}
-    {% endfor %}
-    <h5>B</h5>
-    {% for card in cards %}
-        {% if card.name|first in 'B' %}
-        <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' card.id %}">{{ card.name }}</a>
-        {% endif %}
-    {% endfor %}
-    <h5>A</h5>
-    {% for card in cards %}
-        {% if card.name|first in 'A' %}
-        <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' card.id %}">{{ card.name }}</a>
-        {% endif %}
-    {% endfor %}-->
-<!--     </nav> -->
+{% for card in cards %}
+  <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' card.id %}">{{ card.name }}</a>
+{% endfor %}
 {% else %}
-    <p>No cards are available.</p>
+  <p>No cards are available.</p>
 {% endif %}
-
-<br /><br />
-
-
 </div>
-
 </div>
 
 </div>

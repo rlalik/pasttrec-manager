@@ -184,7 +184,6 @@ class CardCalibrationActionsForm(forms.Form):
 CardCalibrationActionsFormSet = formset_factory(CardCalibrationActionsForm, extra=0)
 
 
-
 class BaseCardCalibrationFormSet(BaseFormSet):
     def get_form_kwargs(self, index):
         kwargs = super().get_form_kwargs(index)

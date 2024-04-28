@@ -1,12 +1,13 @@
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic
-import json  # , pasttrec
 
 from ..models import AsicConfiguration, AsicBaselineSettings, Card
 from ..forms import CardConfigInsertForm, JsonUploadFileForm
 from ..exports import export_json
 from .views import create_revision_snapshot
+
+import json  # , pasttrec
 
 # Create your views here.
 

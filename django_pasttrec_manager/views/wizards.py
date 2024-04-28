@@ -5,9 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import reverse, render, redirect
 
 from ..models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration
-
 from ..forms import (
-    AsicBaselineSettingsFormSet,
     AsicConfigurationFormSet,
     CardFormSet,
     CardCalibrationActionsFormSet,
