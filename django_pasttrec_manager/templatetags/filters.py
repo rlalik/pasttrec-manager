@@ -2,8 +2,6 @@ from django import template
 from django.forms.boundfield import BoundField, BoundWidget
 from django.forms import Select, NumberInput
 
-from ..views.card import get_card_or_top_map
-
 register = template.Library()
 
 

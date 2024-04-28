@@ -1,22 +1,8 @@
 {% load filters %}
 
 <div class="row">
-  <div class="col-2 text-end">FEB ID</div>
-  <div class="col-4"><span class="badge text-bg-primary w-100">{{ form.febid.value }}</span></div>
-  <div class="col-2"><span class="badge text-bg-primary w-100">{{ form.name.value }}</span></div>
-  <div class="col-2">
-  {% if form.notes.value %}
-  <span class="badge text-bg-primary w-100"
-      data-bs-toggle="tooltip" data-bs-placement="top"
-      data-bs-custom-class="custom-tooltip"
-      data-bs-title="{{ form.notes.value }}">
-      Notes
-  </span>
-  {% endif %}
-  </div>
-  <div class="col-2">
-  {% if form.insert_new %}
-  <span class="badge text-bg-success w-100">Insert</span> 
-  {% endif %}
-  </div>
+  <div class="col-1 text-end">FEB ID</div>
+  <div class="col-4"><span class="badge text-bg-primary w-100">{{ data.febid }}</span></div>
+  <div class="col-2"><span class="badge text-bg-primary w-100">{{ data.name }}</span></div>
+  <div class="col-2"><span class="w-100">Notes: {{ data.notes }}</span></div>
 </div>

@@ -1,29 +1,30 @@
 {% load filters %}
 
 <div class="row">
-  <div class="col"><span class="badge text-bg-primary">Asic {{ form.asic_no }}</span></div>
+  <div class="col-1"></div>
+  <div class="col-2"><span class="badge text-bg-primary w-100">ASIC {{ asic_no }}</span></div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_0 disabled=form.disabled_0 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_0 disabled=data.disabled_0 %}
   </div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_1 disabled=form.disabled_1 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_1 disabled=data.disabled_1 %}
   </div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_2 disabled=form.disabled_2 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_2 disabled=data.disabled_2 %}
   </div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_3 disabled=form.disabled_3 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_3 disabled=data.disabled_3 %}
   </div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_4 disabled=form.disabled_4 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_4 disabled=data.disabled_4 %}
   </div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_5 disabled=form.disabled_5 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_5 disabled=data.disabled_5 %}
   </div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_6 disabled=form.disabled_6 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_6 disabled=data.disabled_6 %}
   </div>
   <div class="col">
-  {% include "django_pasttrec_manager/widgets/baseline_value_advanced.html" with baseline=form.baseline_7 disabled=form.disabled_7 %}
+  {% include "django_pasttrec_manager/widgets/baseline_value_advanced_widget.html" with baseline=data.baseline_7 disabled=data.disabled_7 %}
   </div>
 </div>

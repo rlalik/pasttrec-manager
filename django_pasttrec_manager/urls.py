@@ -7,13 +7,15 @@ urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
 
     path("configuration/<int:setup_id>", views.AsicConfigurationView.as_view(), name="configuration"),
-    
+
     path("cards", card.CardView.as_view(), name="cards"),
     path("card/<int:pk>", card.CardView.as_view(), name="card"),
     # path("card/<str:id>/c", card.card_view_lookup, name="card_by_id"),
 
     path("import/calibrations/wizard", wizards.JsonImportWizardView.as_view(), name="import_calibrations_wizard"),
     # path("card/import/insert", card.import_card_insert_view, name="import_card_insert"),
+
+    path("calibration/<int:id>", calibration.CardCalibrationView.as_view(), name="calibration"),
 
     path("card/insert/<str:febid>/<str:name>", card.insert_card_view, name="insert_card"),
     path("card/insert", card.insert_card_view, name="insert_card"),

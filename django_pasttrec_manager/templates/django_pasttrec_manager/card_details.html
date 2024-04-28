@@ -15,38 +15,37 @@
   </ol>
 </nav>
 
-<h3>UID: {{ object.febid }}</h4>
+<h3></h4>
 {% if object.info %}
 <p>{{ object.info }}</p>
 {% endif %}
 <hr />
 
-<h4>Revisions</h4>
-<hr />
-<h5>Tools</h5>
-  <nav class="nav">
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:add_settings_by_card' object.id %}">
-      <i class="fas fa-pen-square"></i> Add settings
-    </a>
-  </nav>
-<hr />
+<div class="card border-dark mb-3">
+  <div class="card-header">Card details</div>
+  <div class="card-body text-dark">
+  {% include 'django_pasttrec_manager/widgets/card_widget.html' with data=object %}
+  </div>
+</div>
 
-{% if revisions %}
-  {% for r in revisions %}
-    <a name="{{r.id}}" />
-    <div class="card">
-    <div class="card-header"><a href="{% url 'django_pasttrec_manager:rev' r.revision.pk %}">{{ r.revision }}</a></div>
-    <div class="card-body">
-    {% include 'django_pasttrec_manager/_card_detail_table.html' with card=r data=r|top_map %}
-    </div></div>
-    </br>
-  {% endfor %}
+{% if calibrations %}
+{% for c in calibrations %}
+<div class="card border-dark mb-3">
+  <div class="card-header">Calibration: <a href="{% url 'django_pasttrec_manager:calibration' c.pk %}">{{ c }}</a></div>
+
+  <div class="card-body text-dark">
+  {% include 'django_pasttrec_manager/widgets/asic_configuration_widget.html' with data=c.config %}
+  <hr>
+  {% include "django_pasttrec_manager/widgets/asic_baseline_widget.html" with asic_no=0 data=c.asic0 %}
+  {% include "django_pasttrec_manager/widgets/asic_baseline_widget.html" with asic_no=1 data=c.asic1 %}
+
+  </div>
+</div>
+{% endfor %}
 {% else %}
-    <p>No Card Settings are available.</p>
+<p>No Card Settings are available.</p>
 {% endif %}
 
-</div>
-</div>
 
 </div>
 {% endblock %}
