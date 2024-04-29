@@ -9,9 +9,12 @@ urlpatterns = [
     path("cards", views.CardView.as_view(), name="cards"),
     path("card/<int:pk>", views.CardView.as_view(), name="card"),
 
-    path("configuration/<int:config_id>", views.AsicConfigurationView.as_view(), name="configuration"),
+    path("configuration/<int:pk>", views.AsicConfigurationView.as_view(), name="configuration"),
 
     path("calibration/<int:id>", views.CardCalibrationView.as_view(), name="calibration"),
+
+    path("cards_setup/add", views.add_cards_setup_view, name="add_cards_setup"),
+    path("cards_setup/<int:pk>", views.CardsSetupView.as_view(), name="cards_setup"),
 
     path("import/calibrations/wizard", wizards.JsonImportWizardView.as_view(), name="import_calibrations_wizard"),
     # path("card/import/insert", card.import_card_insert_view, name="import_card_insert"),

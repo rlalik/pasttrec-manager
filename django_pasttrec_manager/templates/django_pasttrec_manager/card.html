@@ -1,0 +1,70 @@
+{% extends 'django_pasttrec_manager/base.html' %}
+{% load filters %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item" >Card details</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ object.name }}</li>
+  </ol>
+</nav>
+</div>
+</div>
+
+<div class="card border-dark mb-3">
+  <div class="card-header">Card details</div>
+  <div class="card-body text-dark">
+  {% include 'django_pasttrec_manager/widgets/card_widget.html' with data=object %}
+  </div>
+</div>
+
+<div class="row">
+
+<div class="col-10">
+  {% if calibrations %}
+  {% for c in calibrations %}
+  <div class="card border-dark mb-3">
+    <div class="card-header">Calibration details for <a href="{% url 'django_pasttrec_manager:configuration' c.config.pk %}"><span class="badge text-bg-primary">{{ c.config.name }}</span></a> configuration</div>
+
+    <div class="card-body text-dark">
+    {% include 'django_pasttrec_manager/widgets/asic_configuration_noname_widget.html' with data=c.config %}
+    <hr>
+    <div class="row">
+    {% include "django_pasttrec_manager/widgets/asic_baseline_inline_widget.html" with asic_no=0 data=c.asic0 %}
+    </div>
+    <div class="row">
+    {% include "django_pasttrec_manager/widgets/asic_baseline_inline_widget.html" with asic_no=1 data=c.asic1 %}
+    </div>
+
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>No Card Settings are available.</p>
+{% endif %}
+</div>
+
+<div class="col-2">
+  <div class="card border-dark mb-3">
+    <div class="card-header">Cards Setups</div>
+    <div class="card-body text-dark">
+    {% if cards_setups %}
+    {% for cs in cards_setups %}
+    <a class="btn btn-outline-dark btn-sm w-100" href="{% url 'django_pasttrec_manager:cards_setup' cs.pk %}">{{ cs.name }}</a>
+    {% endfor %}
+    {% else %}
+    <p>Not present in any setup.</p>
+    {% endif %}
+    </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+{% endblock %}

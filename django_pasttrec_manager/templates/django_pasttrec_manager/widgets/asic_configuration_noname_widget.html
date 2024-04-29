@@ -1,15 +1,7 @@
 {% load filters %}
 
 <div class="row">
-  <div class="col-1 text-end">SETUP</div>
-  <div class="col-2"><span class="badge text-bg-primary w-100">{{ data.name }}</span></div>
-  <div class="col-1 text-end">Notes</div>
-  <div class="col">{{ data.notes }}</div>
-</div>
-
-<div class="row">
-  <div class="col-1"></div>
-  <div class="col text-end">BGi</div>
+  <div class="col-1 text-end">BGi</div>
   <div class="col"><span class="badge text-bg-secondary w-100">{{ data.bg_int|yesno:"1,0" }}</span></div>
   <div class="col text-end">K</div>
   <div class="col"><span class="badge text-bg-secondary w-100">{{ data.gain }}</span></div>
@@ -26,3 +18,10 @@
   <div class="col text-end">TC2R</div>
   <div class="col"><span class="badge text-bg-secondary w-100">{{ data.tc2r }}</span></div>
 </div>
+
+{% if data.notes %}
+<div class="row">
+  <div class="col-1 text-end">Notes</div>
+  <div class="col">{{ data.notes }}</div>
+</div>
+{% endif %}

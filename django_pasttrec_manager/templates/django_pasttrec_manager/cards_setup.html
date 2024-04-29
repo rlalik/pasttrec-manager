@@ -1,0 +1,96 @@
+{% extends 'django_pasttrec_manager/base.html' %}
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'passtrec_trb3setup:index' %}">Home</a></li>
+    <li class="breadcrumb-item" >Cards setup</li>
+    <li class="breadcrumb-item active" >{{ cards_setup.name }}</li>
+  </ol>
+</nav>
+</div>
+</div>
+
+<h4>Cards in <strong>{{ cards_setup.name }}</strong> setup</h4>
+
+<div class="card border-dark mb-3">
+  <div class="card-header">
+  {% include "django_pasttrec_manager/widgets/cards_setup_actions_widget.html" with cards_setup_pk=cards_setup.pk %}
+
+  <!-- Filter input -->
+  <div class="float-sm-end">
+    <div class="form-floating">
+      <input class="form-control-sm" id="search_field_input" type="text" placeholder="Cards filter"
+        style="padding: 0 .5rem 0 .5rem; min-height: 0;"
+        type       = "text"
+        onchange   = "filter_table();"
+        onkeypress = "this.onchange();"
+        onpaste    = "this.onchange();"
+        oninput    = "this.onchange();">
+    </div>
+  </div>
+  <!-- END: Filter input -->
+
+  </div>
+
+  <div class="card-body text-dark">
+
+  <table class="table table-sm" id="table_id">
+  <thead>
+    <tr>
+    <th scope="col">FEB ID<th>
+    <th scope="col">Card name</th>
+    <th scope="col w-100">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for card in object_list %}
+    <tr class="dummy_table_row">
+      <td><a class="" href="{% url 'django_pasttrec_manager:card' card.id %}"><span class="badge bg-primary w-50">{{ card.febid }}</span></a><td>
+      <td><a class="" href="{% url 'django_pasttrec_manager:card' card.id %}"><span class="badge bg-secondary w-50">{{ card.name }}</span></a></td>
+      <td><a class="" href="{% url 'django_pasttrec_manager:card' card.id %}">actions</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+
+  </div>
+
+  <div class="card-footer text-muted">
+  {% include "django_pasttrec_manager/widgets/cards_setup_actions_widget.html" with cards_setup_pk=cards_setup.pk %}
+  </div>
+</div>
+
+</div>
+<script>
+function filter_table(){
+  // Declare variables
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("search_field_input");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("table_id");
+  tr = table.getElementsByClassName("dummy_table_row");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td") ;
+    for(j=0 ; j<td.length ; j++)
+    {
+      let tdata = td[j] ;
+      if (tdata) {
+        if (tdata.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+          break ;
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+}
+</script>
+{% endblock %}

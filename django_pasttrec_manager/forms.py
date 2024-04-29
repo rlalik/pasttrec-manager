@@ -6,7 +6,7 @@ from django.forms import BaseFormSet
 import datetime
 import json
 
-from .models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration
+from .models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration, CardsSetup
 
 
 class JsonUploadFileForm(forms.Form):
@@ -273,3 +273,9 @@ class CardInsertMultipleForm(forms.ModelForm):
         widgets = {
             "name": forms.Textarea(attrs={"cols": 80, "rows": 5}),
         }
+
+
+class CardsSetupForm(forms.ModelForm):
+    class Meta:
+        model = CardsSetup
+        fields = "__all__"
