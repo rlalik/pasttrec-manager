@@ -1,16 +1,22 @@
 # from django.core.exceptions import DoesNotExist
 from django.core.files.storage import DefaultStorage, InMemoryStorage
 from django.forms.models import model_to_dict
-from django.http import HttpResponseRedirect
-from django.shortcuts import reverse, render, redirect
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
-from ..models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration
-from ..forms import (
+from django_pasttrec_manager.models import (
+    AsicConfiguration,
+    AsicBaselineSettings,
+    Card,
+    CardCalibration,
+)
+from django_pasttrec_manager.forms import (
     AsicConfigurationFormSet,
     CardFormSet,
     CardCalibrationActionsFormSet,
     JsonUploadFileForm,
 )
+from django_pasttrec_manager.tools import safe_serialize, disable_form_fields
 
 import json
 
@@ -24,7 +30,7 @@ def safe_serialize(obj):
     return json.dumps(obj, indent=4, default=default)
 
 
-class JsonImportWizardView(SessionWizardView):
+class CalibrationsImportWizardView(SessionWizardView):
     # template_name = "django_pasttrec_manager/calibration_json_wizard.html"
     file_storage = InMemoryStorage()
     # file_storage = DefaultStorage()
@@ -37,10 +43,10 @@ class JsonImportWizardView(SessionWizardView):
     ]
 
     TEMPLATES = {
-        "upload": "django_pasttrec_manager/calibration_json_upload.html",
-        "configurations": "django_pasttrec_manager/calibration_json_wizard.html",
-        "cards": "django_pasttrec_manager/calibration_json_wizard.html",
-        "calibrations": "django_pasttrec_manager/calibration_json_wizard.html",
+        "upload": "django_pasttrec_manager/wizards/json_upload.html",
+        "configurations": "django_pasttrec_manager/wizards/general_page.html",
+        "cards": "django_pasttrec_manager/wizards/general_page.html",
+        "calibrations": "django_pasttrec_manager/wizards/general_page.html",
     }
 
     def get_template_names(self):
@@ -51,6 +57,13 @@ class JsonImportWizardView(SessionWizardView):
 
     def get_session_tree(self):
         return self.request.session["import_tree"]
+
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form=form, **kwargs)
+        context.update(
+            {"form_url": "django_pasttrec_manager:import_calibrations_wizard"}
+        )
+        return context
 
     def import_payload_into_session(self, file):
         payload_str = b""
@@ -154,9 +167,19 @@ class JsonImportWizardView(SessionWizardView):
 
         form = super().get_form(step, data, files)
 
-        # if step == "configurations":
-        #     for f in form:
-        #         f.set_import_mode()
+        if step == "cards":
+            for f in form:
+                disable_form_fields(f, disabled_fields=("febid",))
+
+        if step == "configurations":
+            for f in form:
+                disable_form_fields(
+                    f,
+                    enabled_fields=(
+                        "name",
+                        "notes",
+                    ),
+                )
 
         return form
 
@@ -294,7 +317,9 @@ class JsonImportWizardView(SessionWizardView):
                 )
 
                 def update_baselines(asic_bl_id, data):
-                    instance, created = AsicBaselineSettings.objects.get_or_create(id=asic_bl_id)
+                    instance, created = AsicBaselineSettings.objects.get_or_create(
+                        id=asic_bl_id
+                    )
                     if not created:
                         data.pop("id")
                         for attr, value in data.items():

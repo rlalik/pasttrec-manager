@@ -71,9 +71,15 @@
     {% endif %}
   </div>
   <div class="card-footer text-muted">
+
   <a class="link-primary" href="{% url 'django_pasttrec_manager:add_cards_setup' %}">
     {% bs_icon 'folder-plus' %} Add new cards setup
   </a>
+  <br />
+  <a class="link-primary" href="{% url 'django_pasttrec_manager:import_cards_setups_wizard' %}">
+    {% bs_icon 'folder-plus' %} Import new cards setup
+  </a>
+
   </div>
 </div>
 

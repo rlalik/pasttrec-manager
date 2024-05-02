@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "mathfilters",
     "django_bootstrap5",
     "django_bootstrap_icons",
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

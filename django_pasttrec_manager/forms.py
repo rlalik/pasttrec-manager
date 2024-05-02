@@ -1,12 +1,20 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.forms import formset_factory
 from django.forms import BaseFormSet
 
+from django_pasttrec_manager.models import (
+    AsicConfiguration,
+    AsicBaselineSettings,
+    Card,
+    CardCalibration,
+    CardsSetup,
+)
+from django_pasttrec_manager.tools import disable_form_fields
+
 import datetime
 import json
-
-from .models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration, CardsSetup
 
 
 class JsonUploadFileForm(forms.Form):
@@ -26,21 +34,16 @@ class AsicConfigurationForm(forms.ModelForm):
         model = AsicConfiguration
         fields = "__all__"
         widgets = {
-            "description": forms.Textarea(attrs={"rows": 2, "cols": "auto"}),
+            "notes": forms.Textarea(attrs={"rows": 2, "cols": "auto"}),
         }
 
     def __init__(self, *args, **kwargs):
         self.insert_new = kwargs.pop("insert_new", None)
+        disabled_fields = kwargs.pop("disabled_fields", None)
+        enabled_fields = kwargs.pop("enabled_fields", None)
         super().__init__(*args, **kwargs)
-
-    def set_import_mode(self):
-        for k, f in self.fields.items():
-            if k not in ("name", "description"):
-                f.disabled = True
-
-    def set_readonly(self):
-        for k, f in self.fields.items():
-            f.disabled = True
+        if disabled_fields or enabled_fields:
+            disable_form_fields(self, disabled_fields, enabled_fields)
 
 
 AsicConfigurationFormSet = formset_factory(AsicConfigurationForm, extra=0)
@@ -57,10 +60,6 @@ class AsicBaselineSettingsForm(forms.ModelForm):
     class Meta:
         model = AsicBaselineSettings
         fields = "__all__"
-
-    def set_readonly(self):
-        for k, f in self.fields.items():
-            f.disabled = True
 
 
 AsicBaselineSettingsFormSet = formset_factory(AsicBaselineSettingsForm, extra=0)
@@ -207,60 +206,19 @@ class AsicSettingsMassChangeForm(forms.Form):
     tc2r = forms.IntegerField(min_value=0, max_value=3, required=False)
 
 
-class CardConfigInsertForm(forms.Form):
-    raw_data = forms.CharField(widget=forms.Textarea)
-
-    def __init__(self, *args, **kwargs):
-        raw = kwargs.pop("raw", None)
-        extra = kwargs.pop("extra", None)
-        super().__init__(*args, **kwargs)
-        self.initial["raw_data"] = raw
-
-        if extra is not None:
-            for v in extra:
-                parts = v["name"].split("_")
-                if v["val"] is None:
-                    continue
-
-                self.fields[v["name"]] = forms.ModelChoiceField(
-                    queryset=(Card.objects.all().order_by("name")),
-                    label="Id: {:s}  Cable: {:s}".format(parts[1], parts[2]),
-                    required=False,
-                )
-                n = str(v["val"]["name"])
-                qs = Card.objects.filter(name=n)
-                if len(qs):
-                    self.fields[v["name"]].initial = qs[0].pk
-                else:
-                    self.fields[v["name"]].initial = n
-
-    def clean(self):
-        pass
-
-
 class CardForm(forms.ModelForm):
     template_name = "django_pasttrec_manager/forms/card_form.html"
 
     class Meta:
         model = Card
         fields = ["febid", "name", "notes"]
-
         widgets = {
-            "notes": forms.Textarea(attrs={"rows": 3, "cols": "auto"}),
+            "notes": forms.Textarea(attrs={"rows": 2, "cols": "auto"}),
         }
 
     def __init__(self, *args, **kwargs):
         self.insert_new = kwargs.pop("insert_new", None)
         super().__init__(*args, **kwargs)
-
-    def set_readonly(self):
-        for k, f in self.fields.items():
-            f.disabled = True
-
-    def set_import_mode(self):
-        for k, f in self.fields.items():
-            if k not in ("name", "notes"):
-                f.disabled = True
 
 
 CardFormSet = formset_factory(CardForm, extra=0)
@@ -279,3 +237,75 @@ class CardsSetupForm(forms.ModelForm):
     class Meta:
         model = CardsSetup
         fields = "__all__"
+
+
+class AddCardToExistingSetupForm(forms.Form):
+    """
+    Provides overview of the FEB card, setup and baseline settings for given calibration.
+    It presents the previous and next baseline values, and has an check box to mark the
+    calibration for overwritting.
+    """
+
+    template_name = "django_pasttrec_manager/forms/cards_setup_actions_form.html"
+
+    confirm_actions = forms.BooleanField(
+        label="Add to setup",
+        required=False,
+        initial=True,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        initial = kwargs.get("initial")
+        card_obj_id = initial["card_id"]["id"]
+
+        def update_widgets(name, form, template=None, extras=None):
+            if extras is None:
+                extras = {}
+
+            new_form = form(prefix=self.prefix, initial=initial[f"{name}_id"], **extras)
+            if template:
+                new_form.template_name = template
+            setattr(self, f"{name}_form", new_form)
+            return new_form
+
+        f = update_widgets(
+            "card",
+            CardForm,
+            # "django_pasttrec_manager/forms/card_form_view.html",
+            extras={"insert_new": card_obj_id is None},
+        )
+
+        disable_form_fields(f, enabled_fields=())
+
+
+AddCardToExistingSetupFormSet = formset_factory(AddCardToExistingSetupForm, extra=0)
+
+
+class NewOrExistingCardsSetupForm(forms.Form):
+    """
+    This forms asks for new cards setup name and/or allows to select existing cards setup.
+    """
+
+    template_name = (
+        "django_pasttrec_manager/forms/new_or_existing_cards_setup_form.html"
+    )
+
+    new_setup_name = forms.CharField(max_length=100, required=False)
+    existing_setup = forms.MultipleChoiceField(
+        choices=(lambda setup_objs: [(obj.pk, obj) for obj in setup_objs])(
+            CardsSetup.objects.all()
+        ),
+        required=False,
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        nsn = cleaned_data.get("new_setup_name")
+        exs = cleaned_data.get("existing_setup")
+
+        if len(exs) == 0 and len(nsn) == 0:
+            raise ValidationError(
+                f"Either existing setup must be selected or new one provided"
+            )

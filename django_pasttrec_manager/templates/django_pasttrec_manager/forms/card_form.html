@@ -1,25 +1,20 @@
-{% load filters %}
+{% load widget_tweaks %}
 {{ form.non_field_errors }}
-<div class="row">
+<!-- CARD FORM -->
+<div class="row mb-3">
 <div class="col-6">
-  <div class="form-group">
-    <label class="">{{ form.febid.label_tag }}</label>
-    <div class="col-sm">{{ form.febid|add_class:"form-control form-control-sm" }}{{ form.febid.errors }}</div>
+  <div class="input-group">
+  <span class="input-group-text">FEB ID</span>
+  {{ form.febid|add_class:"form-control form-control-sm" }}{{ form.febid.errors }}
+  <span class="input-group-text">Name</span>
+  {{ form.name|add_class:"form-control form-control-sm" }}{{ form.name.errors }}
   </div>
-
-  <div class="form-group">
-    <label class="">{{ form.name.label_tag }}</label>
-    <div class="col-sm">{{ form.name|add_class:"form-control form-control-sm" }}{{ form.name.errors }}</div>
-  </div>
-
 </div>
-
 <div class="col-6">
-
-  <div class="form-group">
-    <label class="">{{ form.notes.label_tag }}</label>
-    <div class="col-sm">{{ form.notes|add_class:"form-control form-control-sm" }}{{ form.notes.errors }}</div>
+  <div class="input-group">
+  <span class="input-group-text">Notes</span>
+  {{ form.notes|add_class:"form-control form-control-sm"|attr:"rows:1" }}{{ form.notes.errors }}
   </div>
-
 </div>
 </div>
+<!-- END of CARD FORM -->

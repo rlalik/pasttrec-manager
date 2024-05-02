@@ -1,0 +1,16 @@
+{% load widget_tweaks %}
+
+{{ form.non_field_errors }}
+<div class="row">
+  <div class="col-sm">
+    {{ form.card_form }}
+  </div>
+  <div class="col-sm-2">
+    <div class="form-check">
+      {{ form.confirm_actions|add_class:"form-check-input" }}
+      <label class="form-check-label" for="{{ form.confirm_actions.id_for_label }}">
+      {{ form.confirm_actions.label }}{{ form.confirm_actions.errors }}
+      </label>
+    </div>
+  </div>
+</div>

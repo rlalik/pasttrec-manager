@@ -29,7 +29,7 @@
 </div>
 
 <hr>
-<form action="{% url 'django_pasttrec_manager:import_calibrations_wizard' %}" method="post">
+<form action="{% url form_url %}" method="post">
   {% csrf_token %}
 
   {{ wizard.management_form }}
@@ -38,7 +38,6 @@
     {{ wizard.form.management_form }}
     {% for form in wizard.form.forms %}
       {{ form }}
-      <hr>
     {% endfor %}
   {% else %}
     {{ wizard.form }}

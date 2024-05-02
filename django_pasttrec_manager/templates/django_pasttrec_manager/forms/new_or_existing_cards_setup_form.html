@@ -1,0 +1,14 @@
+{% load widget_tweaks %}
+<!-- NEW OR EXISTING CARDS SETUP FORM -->
+{% if form.non_field_errors %}
+<div class="text-danger">{{ form.non_field_errors }}</div>
+{% endif %}
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">{{ form.new_setup_name.label }}{{ form.existing_setup.errors }}</label>
+  {{ form.new_setup_name|add_class:"form-control form-control-sm" }}
+</div>
+<div class="mb-3">
+  <label for="exampleFormControlTextarea1" class="form-label">{{ form.existing_setup.label }}{{ form.existing_setup.errors }}</label>
+  {{ form.existing_setup|add_class:"form-select form-select-sm"|attr:"multiple" }}
+</div>
+<!-- END of NEW OR EXISTING CARDS SETUP -->
