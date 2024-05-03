@@ -23,19 +23,65 @@
 </div>
 
 <div class="card border-dark mb-3">
-  <div class="card-header">Existing calibrations</div>
-  <div class="card-body text-dark">
+  <div class="card-header">Existing calibrations
+
+  <!-- Filter input -->
+    <div class="float-sm-end">
+      <div class="form-floating">
+        <input class="form-control-sm" id="card_search_input_field" type="text" placeholder="Cards filter"
+          style="padding: 0 .5rem 0 .5rem; min-height: 0;"
+          type       = "text"
+          onchange   = "filter_cards();"
+          onkeypress = "this.onchange();"
+          onpaste    = "this.onchange();"
+          oninput    = "this.onchange();">
+      </div>
+    </div>
+    <!-- END: Filter input -->
+
+  </div>
+  <div class="card-body text-dark" id="cards-container">
   {% for calibration in object_list %}
-  <div class="row">
-  <div class="col">
-  <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' calibration.card.id %}">{{ calibration.card.name }}</a>
-  </div>
-  {% include "django_pasttrec_manager/widgets/asic_baseline_inline_widget.html" with asic_no=0 data=calibration.asic0 %}
-  {% include "django_pasttrec_manager/widgets/asic_baseline_inline_widget.html" with asic_no=1 data=calibration.asic1 %}
-  </div>
+    <div class="row dummy-filter-card">
+    <div class="col">
+    <a class="btn btn-outline-dark btn-sm" href="{% url 'django_pasttrec_manager:card' calibration.card.id %}">{{ calibration.card.name }}</a>
+    </div>
+    {% include "django_pasttrec_manager/widgets/asic_baseline_inline_widget.html" with asic_no=0 data=calibration.asic0 %}
+    {% include "django_pasttrec_manager/widgets/asic_baseline_inline_widget.html" with asic_no=1 data=calibration.asic1 %}
+    </div>
   {% endfor %}
   </div>
 </div>
 
 </div>
+
+<script>
+function filter_cards(){
+  // Declare variables
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("card_search_input_field");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("cards-container");
+  tr = table.getElementsByClassName("dummy-filter-card");
+
+  console.log(tr.length)
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("a") ;
+    for(j=0 ; j<td.length ; j++)
+    {
+      let tdata = td[j] ;
+      if (tdata) {
+        if (tdata.innerHTML.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+          break ;
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+}
+</script>
 {% endblock %}

@@ -15,12 +15,12 @@
 </nav>
 
 {% if form %}
-<h3>Insert connection</h3>
+<h3>Insert Card Setup</h3>
 
 <form action="{% url 'django_pasttrec_manager:add_cards_setup' %}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.non_field_errors }}
-  {{ form.as_table }}
+  {{ form }}
   <div>
     <input class="btn" type="submit" value="{% trans 'Insert' %}" />
   </div>

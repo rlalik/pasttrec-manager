@@ -18,7 +18,6 @@ import json
 
 
 class JsonUploadFileForm(forms.Form):
-
     @staticmethod
     def validate_file_extension(value):
         if not value.name.endswith(".json"):
@@ -234,6 +233,8 @@ class CardInsertMultipleForm(forms.ModelForm):
 
 
 class CardsSetupForm(forms.ModelForm):
+    template_name = "django_pasttrec_manager/forms/cards_setup_form.html"
+
     class Meta:
         model = CardsSetup
         fields = "__all__"
@@ -249,7 +250,7 @@ class AddCardToExistingSetupForm(forms.Form):
     template_name = "django_pasttrec_manager/forms/cards_setup_actions_form.html"
 
     confirm_actions = forms.BooleanField(
-        label="Add to setup",
+        label="Add to setups",
         required=False,
         initial=True,
     )

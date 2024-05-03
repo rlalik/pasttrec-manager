@@ -61,8 +61,24 @@ class CalibrationsImportWizardView(SessionWizardView):
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         context.update(
-            {"form_url": "django_pasttrec_manager:import_calibrations_wizard"}
+            {
+                "wizard_title": "Calibrations import wizard",
+                "form_url": "django_pasttrec_manager:import_calibrations_wizard",
+            },
         )
+
+        if self.steps.current == "upload":
+            context.update({"slide_title": "Upload calibration json file"})
+
+        if self.steps.current == "configurations":
+            context.update({"slide_title": "Name newly discovered configurations"})
+
+        if self.steps.current == "cards":
+            context.update({"slide_title": "Name newly discovered cards"})
+
+        if self.steps.current == "selection":
+            context.update({"slide_title": "Confirm calibrations"})
+
         return context
 
     def import_payload_into_session(self, file):

@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import AsicBaselineSettings, AsicConfiguration, Card, CardCalibration, CardsSetup
+from .models import (
+    AsicBaselineSettings,
+    AsicConfiguration,
+    Card,
+    CardCalibration,
+    CardsSetup,
+)
 
 # Register your models here.
 

@@ -25,16 +25,7 @@
 {% endif %}
 
 <div class="row">
-<h5>Tools</h5>
-  <nav class="nav">
-    <a class="nav-link" href="{% url 'django_pasttrec_manager:import_calibrations_wizard' %}">
-      {% bs_icon 'file-arrow-down' %} Import calibrations from file
-    </a>
-  </nav>
-</div>
-
-<div class="row">
-<div class="col-4">
+<div class="col-3">
 
 <div class="card mb-3">
   <div class="card-header">
@@ -52,12 +43,19 @@
     {% endif %}
   </div>
   <div class="card-footer text-muted">
+
+    <nav class="nav">
+      <a class="nav-link" href="{% url 'django_pasttrec_manager:import_calibrations_wizard' %}">
+        {% bs_icon 'file-arrow-down' %} Import calibrations from file
+      </a>
+    </nav>
+
   </div>
 </div>
 
 <div class="card mb-3">
   <div class="card-header">
-    Select connection
+    Select cards setup
   </div>
   <div class="card-body">
     {% if cards_setups %}
@@ -72,20 +70,21 @@
   </div>
   <div class="card-footer text-muted">
 
-  <a class="link-primary" href="{% url 'django_pasttrec_manager:add_cards_setup' %}">
+  <nav class="nav">
+    <a class="nav-link" href="{% url 'django_pasttrec_manager:add_cards_setup' %}">
     {% bs_icon 'folder-plus' %} Add new cards setup
-  </a>
-  <br />
-  <a class="link-primary" href="{% url 'django_pasttrec_manager:import_cards_setups_wizard' %}">
+    </a>
+    <a class="nav-link" href="{% url 'django_pasttrec_manager:import_cards_setups_wizard' %}">
     {% bs_icon 'folder-plus' %} Import new cards setup
-  </a>
+    </a>
+  </nav>
 
   </div>
 </div>
 
 </div>
 
-<div class="col-8">
+<div class="col">
 
 <div class="card mb-3">
   <div class="card-header">
@@ -93,7 +92,12 @@
 
     <!-- Filter input -->
     <div class="float-sm-end">
-      <div class="form-floating">
+      <div class="hstack gap-3">
+        <nav class="nav">
+          <a class="nav-link" href="{% url 'django_pasttrec_manager:cards' %}">
+          {% bs_icon 'collection' %} View detailed list
+          </a>
+        </nav>
         <input class="form-control-sm" id="card_search_input_field" type="text" placeholder="Cards filter"
           style="padding: 0 .5rem 0 .5rem; min-height: 0;"
           type       = "text"
@@ -121,6 +125,11 @@
   {% endif %}
   </div>
   <div class="card-footer text-muted">
+    <nav class="nav">
+      <a class="nav-link" href="{% url 'django_pasttrec_manager:cards' %}">
+      {% bs_icon 'collection' %} View detailed list
+      </a>
+    </nav>
   </div>
 </div>
 

@@ -24,15 +24,15 @@ class CardsSetupsImportWizardView(SessionWizardView):
     form_list = [
         ("upload", JsonUploadFileForm),
         ("cards", CardFormSet),
-        ("selection", AddCardToExistingSetupFormSet),
         ("cards_setup", NewOrExistingCardsSetupForm),
+        ("selection", AddCardToExistingSetupFormSet),
     ]
 
     TEMPLATES = {
         "upload": "django_pasttrec_manager/wizards/json_upload.html",
         "cards": "django_pasttrec_manager/wizards/general_page.html",
-        "selection": "django_pasttrec_manager/wizards/general_page.html",
         "cards_setup": "django_pasttrec_manager/wizards/general_page.html",
+        "selection": "django_pasttrec_manager/wizards/general_page.html",
     }
 
     def get_template_names(self):
@@ -47,8 +47,24 @@ class CardsSetupsImportWizardView(SessionWizardView):
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         context.update(
-            {"form_url": "django_pasttrec_manager:import_cards_setups_wizard"}
+            {
+                "wizard_title": "Card setup import wizard",
+                "form_url": "django_pasttrec_manager:import_cards_setups_wizard",
+            }
         )
+
+        if self.steps.current == "upload":
+            context.update({"slide_title": "Upload Trb Map json file"})
+
+        if self.steps.current == "cards":
+            context.update({"slide_title": "Name newly discovered cards"})
+
+        if self.steps.current == "cards_setup":
+            context.update({"slide_title": "Select setups"})
+
+        if self.steps.current == "selection":
+            context.update({"slide_title": "Select cards to be added to setup"})
+
         return context
 
     def import_payload_into_session(self, file):

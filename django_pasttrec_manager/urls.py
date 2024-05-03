@@ -5,7 +5,7 @@ app_name = "passtrec_trb3setup"
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
-    path("cards", views.CardView.as_view(), name="cards"),
+    path("cards", views.CardsView.as_view(), name="cards"),
     path("card/<int:pk>", views.CardView.as_view(), name="card"),
     path(
         "configuration/<int:pk>",

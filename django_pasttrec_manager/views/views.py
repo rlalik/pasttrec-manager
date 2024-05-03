@@ -1,7 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 
-from ..models import AsicConfiguration, AsicBaselineSettings, Card, CardCalibration, CardsSetup
+from ..models import (
+    AsicConfiguration,
+    AsicBaselineSettings,
+    Card,
+    CardCalibration,
+    CardsSetup,
+)
 from ..forms import CardsSetupForm
 
 import json
@@ -26,6 +32,11 @@ class IndexView(generic.ListView):
         context["cards"] = Card.objects.order_by("name")
         context["cards_setups"] = CardsSetup.objects.order_by("name")
         return context
+
+
+class CardsView(generic.ListView):
+    model = Card
+    template_name = "django_pasttrec_manager/cards.html"
 
 
 class CardView(generic.DetailView):
@@ -61,13 +72,9 @@ class CardCalibrationView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         card_id = self.kwargs.get("pk", None)
-
         calibrations = CardCalibration.objects.filter(card=card_id)
-
         context["calibrations"] = calibrations
-
         return context
 
 
@@ -83,9 +90,7 @@ class CardsSetupView(generic.ListView):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get("pk", None)
         cards_setup = CardsSetup.objects.get(pk=pk)
-
         context["cards_setup"] = cards_setup
-
         return context
 
 
@@ -101,7 +106,9 @@ def add_cards_setup_view(request):
 
         if form.is_valid():
             print(form.cleaned_data)
-            obj, created = CardsSetup.objects.update_or_create(name=form.cleaned_data["name"])
+            obj, created = CardsSetup.objects.update_or_create(
+                name=form.cleaned_data["name"]
+            )
             for card in form.cleaned_data["cards"]:
                 obj.cards.add(card)
             obj.save()

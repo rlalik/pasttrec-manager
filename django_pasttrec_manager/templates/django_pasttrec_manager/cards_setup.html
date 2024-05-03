@@ -19,7 +19,6 @@
 
 <div class="card border-dark mb-3">
   <div class="card-header">
-  {% include "django_pasttrec_manager/widgets/cards_setup_actions_widget.html" with cards_setup_pk=cards_setup.pk %}
 
   <!-- Filter input -->
   <div class="float-sm-end">
@@ -42,16 +41,16 @@
   <table class="table table-sm" id="table_id">
   <thead>
     <tr>
-    <th scope="col">FEB ID<th>
-    <th scope="col">Card name</th>
-    <th scope="col w-100">Actions</th>
+    <th class="w-25" scope="col">FEB ID<th>
+    <th class="w-25" scope="col">Card name</th>
+    <th class="w-50" scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
   {% for card in object_list %}
     <tr class="dummy_table_row">
-      <td><a class="" href="{% url 'django_pasttrec_manager:card' card.id %}"><span class="badge bg-primary w-50">{{ card.febid }}</span></a><td>
-      <td><a class="" href="{% url 'django_pasttrec_manager:card' card.id %}"><span class="badge bg-secondary w-50">{{ card.name }}</span></a></td>
+      <td><a class="font-monospace" href="{% url 'django_pasttrec_manager:card' card.id %}"><span class="badge bg-primary w-100">{{ card.febid }}</span></a><td>
+      <td><a class="font-monospace" href="{% url 'django_pasttrec_manager:card' card.id %}"><span class="badge bg-secondary w-100">{{ card.name }}</span></a></td>
       <td><a class="" href="{% url 'django_pasttrec_manager:card' card.id %}">actions</a></td>
     </tr>
   {% endfor %}
