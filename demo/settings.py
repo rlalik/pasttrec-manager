@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django_pasttrec_manager.apps.PasttrecManager",
+    # extra apps
+    "django_pasttrec_manager",
     "formtools",
     "mathfilters",
     "django_bootstrap5",
