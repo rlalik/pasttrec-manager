@@ -1,7 +1,8 @@
 # from django.core.exceptions import DoesNotExist
 from django.core.files.storage import DefaultStorage, InMemoryStorage
 from django.forms.models import model_to_dict
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
+
 from django.urls import reverse
 
 from django_pasttrec_manager.models import (
@@ -9,12 +10,11 @@ from django_pasttrec_manager.models import (
     AsicBaselineSettings,
     Card,
     CardCalibration,
+    CardsSetup,
 )
 from django_pasttrec_manager.forms import (
-    AsicConfigurationFormSet,
-    CardFormSet,
-    CardCalibrationActionsFormSet,
-    JsonUploadFileForm,
+    SetupAndConfigurationForExportCalibration,
+    SelectCardsForExportCalibration,
 )
 from django_pasttrec_manager.tools import safe_serialize, disable_form_fields
 
@@ -23,54 +23,36 @@ import json
 from formtools.wizard.views import SessionWizardView
 
 
-class CalibrationsImportWizardView(SessionWizardView):
+class CalibrationExportWizardView(SessionWizardView):
     # template_name = "django_pasttrec_manager/calibration_json_wizard.html"
-    file_storage = InMemoryStorage()
-    # file_storage = DefaultStorage()
 
     form_list = [
-        ("upload", JsonUploadFileForm),
-        ("cards", CardFormSet),
-        ("configurations", AsicConfigurationFormSet),
-        ("calibrations", CardCalibrationActionsFormSet),
+        ("setup_and_config", SetupAndConfigurationForExportCalibration),
+        ("select_cards", SelectCardsForExportCalibration),
     ]
 
     TEMPLATES = {
-        "upload": "django_pasttrec_manager/wizards/json_upload.html",
-        "configurations": "django_pasttrec_manager/wizards/general_page.html",
-        "cards": "django_pasttrec_manager/wizards/general_page.html",
-        "calibrations": "django_pasttrec_manager/wizards/general_page.html",
+        "setup_and_config": "django_pasttrec_manager/wizards/general_page.html",
+        "select_cards": "django_pasttrec_manager/wizards/general_page.html",
     }
 
     def get_template_names(self):
         return [self.TEMPLATES[self.steps.current]]
 
-    def get_payload_data(self):
-        return self.request.session["import_payload"]
-
-    def get_session_tree(self):
-        return self.request.session["import_tree"]
-
     def get_context_data(self, form, **kwargs):
         context = super().get_context_data(form=form, **kwargs)
         context.update(
             {
-                "wizard_title": "Calibrations import wizard",
-                "form_url": "django_pasttrec_manager:import_calibrations_wizard",
+                "wizard_title": "Calibration export wizard",
+                "form_url": "django_pasttrec_manager:export_calibration_wizard",
             },
         )
 
-        if self.steps.current == "upload":
-            context.update({"slide_title": "Upload calibration json file"})
+        if self.steps.current == "setup_and_config":
+            context.update({"slide_title": "Select configuration and cards setup to export"})
 
-        if self.steps.current == "configurations":
-            context.update({"slide_title": "Name newly discovered configurations"})
-
-        if self.steps.current == "cards":
-            context.update({"slide_title": "Name newly discovered cards"})
-
-        if self.steps.current == "selection":
-            context.update({"slide_title": "Confirm calibrations"})
+        if self.steps.current == "select_cards":
+            context.update({"slide_title": "Confirm cards to be exported"})
 
         return context
 
@@ -80,8 +62,6 @@ class CalibrationsImportWizardView(SessionWizardView):
             payload_str += chunk
 
         decoded = json.loads(payload_str.decode())
-
-        self.request.session["import_payload"] = decoded
 
         import_tree = self.request.session["import_tree"] = {
             "cards": {},
@@ -166,52 +146,24 @@ class CalibrationsImportWizardView(SessionWizardView):
         model_fields = [f.name for f in model._meta.get_fields() if f.name != "id"]
         return {k: v for k, v in arg_dict.items() if k in model_fields}
 
-    def get_form(self, step=None, data=None, files=None):
-        # determine the step if not given
-        if step is None:
-            step = self.steps.current
-
-        if step == "upload" and files is not None:
-            self.import_payload_into_session(files["upload-file"])
-
-        form = super().get_form(step, data, files)
-
-        if step == "cards":
-            for f in form:
-                disable_form_fields(f, disabled_fields=("febid",))
-
-        if step == "configurations":
-            for f in form:
-                disable_form_fields(
-                    f,
-                    enabled_fields=(
-                        "name",
-                        "notes",
-                    ),
-                )
-
-        return form
-
     def get_form_initial(self, step):
-        if step == "upload":
-            return ()
+        print(step)
+        if step == "select_cards":
 
-        if step == "cards":
-            import_tree = self.request.session["import_tree"]
+            preselection_data = self.get_cleaned_data_for_step("setup_and_config")
+            print(preselection_data)
+
+            config_data = get_object_or_404(AsicConfiguration, pk=preselection_data['configuration'])
+            print(config_data)
+
+            if int(preselection_data['setup']) > 0:
+                cardcalib_data = get_list_or_404(CardCalibration, config=config_data)
+            else:
+                cardcalib_data = get_list_or_404(CardCalibration, config=config_data)
 
             return [
-                values[0]
-                for _, values in import_tree["cards"].items()
-                if values[0]["id"] is None
-            ]
-
-        if step == "configurations":
-            import_tree = self.request.session["import_tree"]
-
-            return [
-                values[0]
-                for _, values in import_tree["configs"].items()
-                if values[0]["id"] is None
+                cd.card
+                for cd in cardcalib_data
             ]
 
         if step == "calibrations":
@@ -295,7 +247,6 @@ class CalibrationsImportWizardView(SessionWizardView):
         return self.initial_dict.get(step, {})
 
     def done(self, form_list, **kwargs):
-        import_tree = self.get_session_tree()
         payload_data = self.get_payload_data()
 
         dict_config = {}

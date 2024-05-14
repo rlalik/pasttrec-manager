@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import *
+from .views import views, wizards
 
 app_name = "passtrec_trb3setup"
 
@@ -32,6 +32,13 @@ urlpatterns = [
         wizards.CardsSetupsImportWizardView.as_view(),
         name="import_cards_setups_wizard",
     ),
+
+    path(
+        "export/calibration/wizard",
+        wizards.CalibrationExportWizardView.as_view(),
+        name="export_calibration_wizard",
+    ),
+
     # path("card/import/insert", card.import_card_insert_view, name="import_card_insert"),
     # path("card/insert/<str:febid>/<str:name>", card.insert_card_view, name="insert_card"),
     # path("card/insert", card.insert_card_view, name="insert_card"),
